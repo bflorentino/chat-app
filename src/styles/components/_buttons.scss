@@ -1,0 +1,21 @@
+.btn {
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.btn-primary {
+    background-color: $primary;
+    color: #fff;
+    border-radius: 12px;
+    padding: 10px;
+    font-size: 17px;
+
+    &:hover{
+        background-color: darken($primary, 10%);
+    }
+
+    &:disabled {
+        background-color: #ccc;
+    }
+}

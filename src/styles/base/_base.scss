@@ -1,0 +1,160 @@
+*{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+body {
+    font-family:  "Inter", sans-serif, "Segoe-UI", "Outfit", sans-serif;
+    font-weight: 400;
+    background-color: $primary;
+}
+
+body::-webkit-scrollbar, .styled-scroll::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+body::-webkit-scrollbar:vertical, .styled-scroll::-webkit-scrollbar {
+    width:7px;
+}
+body::-webkit-scrollbar-button:increment, body::-webkit-scrollbar-button,
+.styled-scroll::-webkit-scrollbar-button:increment, .styled-scroll::-webkit-scrollbar-button {
+    display: none;
+} 
+body::-webkit-scrollbar-thumb {
+    background-color: $primary;
+    border-radius: 5px;
+}
+
+.styled-scroll::-webkit-scrollbar-thumb  {
+    background-color: #DEDEDE;
+    border-radius: 5px;
+}
+
+#root{
+    display: flex;
+    flex-wrap: wrap;
+    overflow: auto;
+}
+
+// Margin Top
+.mt-1 {
+    margin-top: 10px;
+}
+.mt-2 {
+    margin-top: 20px;
+}
+.mt-3 {
+    margin-top: 30px;
+}
+
+// Margin Left
+.ml-1 {
+    margin-left: 10px;
+}
+.ml-2 {
+    margin-left: 20px
+}
+.ml-3 {
+    margin-left: 30px;
+}
+
+// Margin Right
+.mr-1 {
+    margin-right: 10px;
+}
+
+.m-auto {
+    margin: auto;   
+}
+
+// Padding
+.p-1 {
+    padding: 5px;
+}
+
+.p-2 {
+    padding: 10px;
+}
+
+.pl-1{
+    padding-left: 10px;
+}
+
+.px-1{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.py-1 {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+ 
+.py-2 {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+ 
+// Text Colors
+.text-black {
+    color: #1c1e21;
+}
+.text-gray {
+    color: #606770
+}
+.text-red {
+    color: #E42929;
+}
+
+// Font Weight
+.text-500{
+    font-weight: 500;
+}
+.text-600{
+    font-weight: 600
+}
+.text-700{
+    font-weight: 700;
+}
+
+// display
+.none {
+    display: none
+}
+
+// pointer
+.pointer {
+    cursor: pointer;
+}
+
+// align
+.text-left {
+    text-align: left;
+}
+.text-center {
+    text-align: center;
+}
+.text-right {
+    text-align: right;
+}
+
+// Width
+.w-full {
+    width: 100%
+}
+
+// Titles
+.title1 {
+    font-size: 40px;
+    font-weight: bold;
+    font-family: "Outfit", sans-serif;
+}
+.title2 {
+    font-size: 35px;
+    font-weight: bold;
+    font-family: "Outfit", sans-serif;
+}
+.title3 {
+    font-size: 30px;
+}

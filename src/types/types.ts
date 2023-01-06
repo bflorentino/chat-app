@@ -9,7 +9,7 @@ export interface AuthContextState {
     email: string,
     userName: string,
     token: string,
-    logged:boolean
+    logged?:boolean
 }
 
 export type TAuthContextPayload = AuthContextState
@@ -24,6 +24,28 @@ export interface AuthContextProps {
     AuthDispatch : React.Dispatch<ContextActions>
 }
 
-
 // TYPES FOR REACT EVENTS
-export type FormEvent = React.FormEvent<HTMLFormElement>
+export type InputEvent = React.FormEvent<HTMLInputElement>  | null
+export type FocusEvent = React.FocusEvent<HTMLInputElement> | null
+
+
+/**********************************************************************************/
+// TYPES FOR HANDLING HTTP REQUESTS
+export enum RequestsType { get = 'GET', post = 'POST', put = 'PUT', delete = "DELETE" }
+
+export interface RequestObject {
+    type: RequestsType,
+    endpoint: string,
+    body? : object,
+    headers? :object,
+    isFormData? : boolean
+}
+
+export interface ServerResponse {
+    _status : number,
+    _message : string | null,
+    _data : null | object,
+    _success : boolean
+}
+
+/************************************************************************************/
