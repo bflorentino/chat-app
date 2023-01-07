@@ -11,11 +11,8 @@ export const useLogin = ()  => {
        AuthDispatch({
             type: AuthContextActions.LOGIN, 
             payload: {...authData}
-        
         })
-
         window.localStorage.setItem("userToken", JSON.stringify({...authData}))
-
     }
 
     return setLogged

@@ -5,22 +5,18 @@ import { validateRegisterForm } from '../../tools/validations/RegisterForm'
 import { InputStatus } from '../../types/validationTypes'
 import { useMutation } from 'react-query'
 import { useFetchData } from '../../hooks/useFetchData'
-import { AuthContextState, RequestObject } from '../../types/types'
+import { AuthContextState, Endpoint, RequestObject } from '../../types/types'
 import { RequestsType } from '../../types/types'
 import { useLogin } from '../../hooks/useLogin'
-
-const objectForRequest : RequestObject = {
-  type: RequestsType.post,
-  endpoint : 'authentication/register',
-  headers: {'Content-Type': 'application/json'}, 
-  body: {}
-} 
+import Swal from 'sweetalert2'
+import useObjectForReqest from '../../hooks/useObjectForRequest'
 
 const RegisterPage = () => {
   
   const fetcher = useFetchData()
   const history = useNavigate()
   const login   = useLogin()
+  const objectForRequest = useObjectForReqest(Endpoint.Register, RequestsType.post, true)
 
   const [ formValues, handleInputChanges ] = useForm({
     name: "",
@@ -40,7 +36,7 @@ const RegisterPage = () => {
       {name: "email",     message:null, touched:false},
       {name: "password",  message:null, touched:false},
       {name: "password2", message:null, touched:false},
-      {name: "phone",     message:null}
+      {name: "phone",     message:null, touched:true}
     ]
 )
 
@@ -51,9 +47,16 @@ const { mutate: registerUser } = useMutation(
   (object:RequestObject) => fetcher(object),
   {
     onSuccess: (res) => {
-      console.log(res)
-      login(res as unknown as AuthContextState)
-      history('/app/chat', {replace:true})
+
+      if(!res._success){
+        Swal.fire("Error", res._message as string, "error")
+        return
+      }
+        login(res._data as AuthContextState)
+        history('/app/chat', {replace:true})
+    },
+    onError:  () => {
+      Swal.fire("Error", "Hubo un error de conexion al servidor", "error")
     }
   }
 )
@@ -75,7 +78,7 @@ const handleOnBlur = (e:React.FocusEvent<HTMLInputElement>) => {
 
   const handleSubmit = (e:React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    const requestToSend:RequestObject = {...objectForRequest, body:{...formValues}}
+    const requestToSend:RequestObject = {...objectForRequest, body:JSON.stringify({...formValues})}
     registerUser(requestToSend)
   }
 
@@ -182,7 +185,11 @@ const handleOnBlur = (e:React.FocusEvent<HTMLInputElement>) => {
           errors[6].message && <small className='Form_text-error text-left'>{errors[6].message}</small>
         }
 
-        <button type='submit' className='btn btn-primary mt-3 pointer' disabled={isDisabled}>
+        <button 
+          type='submit' className='btn btn-primary mt-3 pointer' 
+          disabled={isDisabled}
+          onClick={handleSubmit}
+        >
           Sign Up
         </button>
 

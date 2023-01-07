@@ -1,0 +1,34 @@
+@use "sass:math";
+
+.Nav_container {
+    @extend %flex-row-between;
+    width: 100%;
+    height: 50px;
+    background-color: $primary;
+    padding: 0px 20px;
+}
+
+.Nav_items {
+    @extend %flex-row-centered;
+}
+
+.Nav_item {
+    @extend %flex-row;
+    align-items: center;
+}
+
+// Handling popup account menu
+.Nav_toggle {
+    position: absolute;
+    background-color: $white;
+    top: 44px;
+    right: 10px;
+    width: 150px;
+    box-shadow: 0 1px 2px 0 rgb(0, 0, math.div(0, 0.05));
+}
+
+.Nav_hover-item {
+    &:hover {
+        background-color: $light-gray1;
+    }
+}

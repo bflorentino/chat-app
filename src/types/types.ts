@@ -16,7 +16,7 @@ export type TAuthContextPayload = AuthContextState
 
 export interface ContextActions {
     type: AuthContextActions,
-    payload: AuthContextState
+    payload?: AuthContextState
 }
 
 export interface AuthContextProps {
@@ -33,11 +33,16 @@ export type FocusEvent = React.FocusEvent<HTMLInputElement> | null
 // TYPES FOR HANDLING HTTP REQUESTS
 export enum RequestsType { get = 'GET', post = 'POST', put = 'PUT', delete = "DELETE" }
 
+export enum Endpoint {
+    Register = 'authentication/register',
+    login    = 'authentication/login'
+}
+
 export interface RequestObject {
-    type: RequestsType,
+    method: RequestsType,
     endpoint: string,
-    body? : object,
-    headers? :object,
+    body? : object | string| undefined,
+    headers? :object | undefined,
     isFormData? : boolean
 }
 

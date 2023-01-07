@@ -8,7 +8,7 @@
 body {
     font-family:  "Inter", sans-serif, "Segoe-UI", "Outfit", sans-serif;
     font-weight: 400;
-    background-color: $primary;
+    background-color: $white;
 }
 
 body::-webkit-scrollbar, .styled-scroll::-webkit-scrollbar {
@@ -105,6 +105,9 @@ body::-webkit-scrollbar-thumb {
 }
 .text-red {
     color: #E42929;
+}
+.text-white {
+    color: $white;
 }
 
 // Font Weight

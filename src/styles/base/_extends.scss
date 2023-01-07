@@ -10,11 +10,13 @@
     @extend %flex-column;
     align-items: center;
 }
-%flex-row-between {
-    @extend %flex-row;
-    justify-content: space-between;
-}
 %flex-row-centered {
     @extend %flex-row;
     justify-content: center;
+    align-items: center;
+}
+%flex-row-between {
+    @extend %flex-row;
+    justify-content: space-between;
+    align-items: center;
 }

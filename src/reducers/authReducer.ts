@@ -16,7 +16,7 @@ const authReducer = (state:AuthContextState, action:ContextActions):AuthContextS
 
     switch(action.type){
         case AuthContextActions.LOGIN:
-            return {...action.payload}
+            return {...action.payload!, logged:true}
 
         case AuthContextActions.LOGOUT:
             return {...defaultAuthContextState}
