@@ -34,8 +34,9 @@ export type FocusEvent = React.FocusEvent<HTMLInputElement> | null
 export enum RequestsType { get = 'GET', post = 'POST', put = 'PUT', delete = "DELETE" }
 
 export enum Endpoint {
-    Register = 'authentication/register',
-    login    = 'authentication/login'
+    Register      = 'authentication/register',
+    login         = 'authentication/login',
+    matchingUsers = 'searchUsers' 
 }
 
 export interface RequestObject {
@@ -64,4 +65,11 @@ export interface ChatListSchema {
     userName:string,
     lastMessage?:string,
     date?: string
+}
+
+// Users Matched
+export interface UserMatch {
+    name:string,
+    last_name:string,
+    user_name:string,
 }

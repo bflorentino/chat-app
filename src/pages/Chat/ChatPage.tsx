@@ -3,6 +3,7 @@ import { AuthContext } from '../../context/context'
 import Navbar from '../../shared/components/Navbar'
 import { ChatState } from '../../types/types'
 import ChatList from './components/Chat List/ChatList'
+import UserList from './components/Users List/UserList'
 
 const ChatPage = () => {
 
@@ -14,9 +15,15 @@ const ChatPage = () => {
         <Navbar setChatState={setChatContainerState}/>
         
         {
-          chatContainerState === ChatState.ChatList &&
+          chatContainerState === ChatState.ChatList 
+            &&
+          <ChatList  />
+        }
 
-          <ChatList />
+        {
+          chatContainerState === ChatState.UsersSearch 
+            &&
+          <UserList  />
         }
 
       </div>

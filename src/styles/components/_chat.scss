@@ -19,6 +19,7 @@
 
 .Chat_list-container{
     @extend %flex-column;
+    overflow: auto;
 }
 
 .Chat_list-item {

@@ -17,11 +17,7 @@ const Navbar = ({setChatState}:{setChatState:(state:ChatState) => void}) => {
     e.preventDefault()
     window.localStorage.removeItem("userToken")
     AuthDispatch({type:AuthContextActions.LOGOUT})
-  }
-
-  const handleChangeState = (chatState:ChatState) => {
-    setChatState(chatState)
-  }
+  } 
 
   return (
     
@@ -48,8 +44,16 @@ const Navbar = ({setChatState}:{setChatState:(state:ChatState) => void}) => {
       </div>
 
       <div className='chat-state'>
-        <span><button className='btn text-dark pointer p-2 normalP Nav_hover-item'>Tus Chats</button></span>
-          <span><button className='btn text-dark pointer p-2 normalP Nav_hover-item'>Buscar Usuarios</button></span>
+        <span>
+            <button className='btn text-dark pointer p-2 normalP Nav_hover-item' onClick={()=>setChatState(ChatState.ChatList)}>
+              Tus Chats
+            </button>
+        </span>
+        <span>
+            <button className='btn text-dark pointer p-2 normalP Nav_hover-item' onClick={()=>setChatState(ChatState.UsersSearch)}>
+              Buscar Usuarios
+            </button>
+        </span>
       </div>
     </nav>
   )
