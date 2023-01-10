@@ -1,7 +1,9 @@
+@import './mixins';
+
 *{
     list-style: none;
-    margin: 0;
-    padding: 0;
+    margin: 0px;
+    padding: 0px;
     text-decoration: none;
 }
 
@@ -35,6 +37,7 @@ body::-webkit-scrollbar-thumb {
     display: flex;
     flex-wrap: wrap;
     overflow: auto;
+    height: 99vh;
 }
 
 // Margin Top
@@ -58,7 +61,9 @@ body::-webkit-scrollbar-thumb {
 .ml-3 {
     margin-left: 30px;
 }
-
+.mb-1 {
+    margin-bottom: 10px;
+}
 // Margin Right
 .mr-1 {
     margin-right: 10px;
@@ -98,16 +103,19 @@ body::-webkit-scrollbar-thumb {
  
 // Text Colors
 .text-black {
-    color: #1c1e21;
+    color: $black;
 }
 .text-gray {
-    color: #606770
+    color: #606770;
 }
 .text-red {
-    color: #E42929;
+    color: $red-error;
 }
 .text-white {
     color: $white;
+}
+.text-dark{
+    color: $dark;
 }
 
 // Font Weight
@@ -142,22 +150,59 @@ body::-webkit-scrollbar-thumb {
     text-align: right;
 }
 
-// Width
-.w-full {
-    width: 100%
+// Text for paragraph
+.text-sm {
+    font-size: 10px;
+}
+.text-normal {
+    font-size: 14px;
+}
+.text-md {
+    font-size: 17px;
+}
+.text-lg{
+    font-size: 20px;
 }
 
 // Titles
 .title1 {
-    font-size: 40px;
-    font-weight: bold;
-    font-family: "Outfit", sans-serif;
+    @include setFontStyle(40px, bold, $outfit);
 }
 .title2 {
-    font-size: 35px;
-    font-weight: bold;
-    font-family: "Outfit", sans-serif;
+    @include setFontStyle(35px, bold, $outfit);
 }
 .title3 {
-    font-size: 30px;
+    @include setFontStyle(30px, bold, $outfit);
+}
+.title4{
+    @include setFontStyle(20px, normal, $outfit);
+}
+
+// Width
+.w-full {
+    width: 100%;
+}
+
+.w-20{
+    width: 20%;
+}
+
+.w-10 {
+    width:10%
+}
+
+.w-50 {
+    width:50%
+}
+
+.w-70 {
+    width:70%;
+}
+
+.w-80 {
+    width: 80%;
+}
+
+.w-90{
+    width: 90%;
 }

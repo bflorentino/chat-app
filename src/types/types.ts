@@ -54,3 +54,14 @@ export interface ServerResponse {
 }
 
 /************************************************************************************/
+
+// TYPES FOR HANDLING CHAT
+export enum ChatState { ChatList = "chatList", UsersSearch = "usersSearch" }
+
+export interface ChatListSchema {
+    name: string,
+    lastName:string,
+    userName:string,
+    lastMessage?:string,
+    date?: string
+}

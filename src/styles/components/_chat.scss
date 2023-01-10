@@ -1,0 +1,44 @@
+@use "sass:math";
+
+.Chat_page {
+    width: 100%;
+    @extend %flex-row-centered;
+    align-items: flex-start;
+    height: 100%;
+    overflow: hidden;
+}
+
+.Chat_container {
+    @extend %flex-column;
+    width: 40%;
+    height: 100%;
+    border: 1px solid $light-gray3;
+    box-shadow: 0 1px 2px 0 rgb(0, 0, math.div(0, 0.05));
+    min-width: 350px;
+}
+
+.Chat_list-container{
+    @extend %flex-column;
+}
+
+.Chat_list-item {
+   @extend %flex-row-centered;
+   width: 100%;
+
+   &:hover{
+    background-color: $light-gray3;
+   }
+}
+
+.Chat_separator {
+    border-bottom: 1px solid $light-gray3;
+    @extend %flex-row;
+}
+
+.Chat_message-info {
+    @extend %flex-column;
+}
+
+.Chat_searcher{
+    @extend %flex-row-centered;
+}

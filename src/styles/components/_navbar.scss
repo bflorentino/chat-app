@@ -1,14 +1,16 @@
 @use "sass:math";
 
 .Nav_container {
-    @extend %flex-row-between;
+    @extend %flex-column;
     width: 100%;
-    height: 50px;
-    background-color: $primary;
-    padding: 0px 20px;
+    background-color: $light-gray3;
 }
 
 .Nav_items {
+    @extend %flex-row-between;
+}
+
+.chat-state {
     @extend %flex-row-centered;
 }
 
@@ -22,13 +24,13 @@
     position: absolute;
     background-color: $white;
     top: 44px;
-    right: 10px;
+    right: 150px;
     width: 150px;
     box-shadow: 0 1px 2px 0 rgb(0, 0, math.div(0, 0.05));
 }
 
 .Nav_hover-item {
     &:hover {
-        background-color: $light-gray1;
+        background-color: $gray;
     }
 }

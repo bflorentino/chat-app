@@ -1,0 +1,6 @@
+// Titles
+@mixin setFontStyle($size, $weight, $family){
+    font-size: $size;
+    font-weight: $weight;
+    font-family: $family, sans-serif;
+}

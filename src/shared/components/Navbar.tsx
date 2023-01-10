@@ -1,12 +1,11 @@
-import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useState } from 'react'
 import { AuthContext } from '../../context/context'
-import { AuthContextActions } from '../../types/types'
+import { AuthContextActions, ChatState } from '../../types/types'
 
 import noProfile from '../../assets/noprofile.png'
 import logout from '../../assets/logout.png'
 
-const Navbar = () => {
+const Navbar = ({setChatState}:{setChatState:(state:ChatState) => void}) => {
   
   const { AuthState, AuthDispatch } = useContext(AuthContext)
 
@@ -20,32 +19,38 @@ const Navbar = () => {
     AuthDispatch({type:AuthContextActions.LOGOUT})
   }
 
+  const handleChangeState = (chatState:ChatState) => {
+    setChatState(chatState)
+  }
+
   return (
     
     <nav className='Nav_container'>
-      <h3 className='title3 text-white  '> Chat App </h3>
+      
+      <div className='Nav_items p-1'>
+        <h3 className='title3 text-dark'> Chat App </h3>
 
-      <ul className='Nav_items'>
-        
         <div className='Nav_item pointer' onClick={onAccount}>
           <img src={noProfile} alt="Profile Picture" title='Profile Picture' />
-          <p className='ml-1 text-white'>{AuthState.userName}</p>
         </div>
 
         <div id='account' className='none Nav_toggle py-1'>
-          <div className='Nav_item px-1'>
-            <img src={noProfile} alt="Profile Picture" title='Profile Picture' />
-            <p className='ml-1'>{AuthState.userName}</p>
-          </div>
+            <div className='Nav_item px-1'>
+              <img src={noProfile} alt="Profile Picture" title='Profile Picture' />
+              <p className='ml-1'>{AuthState.userName}</p>
+            </div>
 
-          <button onClick={handleLogout} className='btn Nav_item px-1 Nav_hover-item pointer w-full mt-1 py-1'>
-           <img src={logout} alt="" />
-            <p className='ml-1'>Sign Out</p> 
-          </button>
-
+            <button onClick={handleLogout} className='btn Nav_item px-1 Nav_hover-item pointer w-full mt-1 py-1'>
+            <img src={logout} alt="" />
+              <p className='ml-1'>Sign Out</p> 
+            </button>
         </div>
-      </ul>
-    
+      </div>
+
+      <div className='chat-state'>
+        <span><button className='btn text-dark pointer p-2 normalP Nav_hover-item'>Tus Chats</button></span>
+          <span><button className='btn text-dark pointer p-2 normalP Nav_hover-item'>Buscar Usuarios</button></span>
+      </div>
     </nav>
   )
 }

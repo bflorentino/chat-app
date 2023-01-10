@@ -32,7 +32,6 @@ const AppRouter = ()=> {
 
     return(
         <Router>
-            { AuthState.logged && <Navbar /> }
             <Routes>
                 <Route
                     path="/"
