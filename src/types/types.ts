@@ -1,6 +1,10 @@
 import React from "react"
 
 // TYPES AND INTERFACES FOR CONTEXT AND REDUCERS
+
+/************************************************************************ */
+
+// Auth Context
 export enum AuthContextActions { LOGIN = "login", LOGOUT = "logout" }
 
 export interface AuthContextState {
@@ -23,6 +27,46 @@ export interface AuthContextProps {
     AuthState : AuthContextState,
     AuthDispatch : React.Dispatch<ContextActions>
 }
+
+// Chats Context
+export enum ChatsContextActionsType {
+                                    RECEIVE_MESSAGE    = "receive_message",
+                                    UPDATE_MESSAGE     = "update_message",
+                                    DELETE_MESSAGE     = 'delete_message', 
+                                    ADD_CHAT           = 'add_chat',
+                                    DELETE_CHAT        = 'delete_chat' 
+                                }
+
+
+export interface MessageSchema {
+    messageId: string,
+    userFrom: string,
+    content: string,
+    time:string,
+    wasSeen:Boolean
+}
+
+export interface ChatSchema {
+    user1:string,
+    user2:string,
+    messages : MessageSchema[]
+}
+
+export type ChatContextState = { [chatId:string] : ChatSchema }
+
+export type TChatContextPayload = ChatSchema | ChatContextState
+
+export interface ChatsContextActions {
+    type: ChatsContextActionsType,
+    payload: TChatContextPayload
+}
+
+export interface IChatContextProps {
+    ChatState: ChatContextState,
+    ChatDispatch: React.Dispatch<ChatsContextActions>
+}
+
+/************************************************************************ */
 
 // TYPES FOR REACT EVENTS
 export type InputEvent = React.FormEvent<HTMLInputElement>  | null
@@ -57,7 +101,7 @@ export interface ServerResponse {
 /************************************************************************************/
 
 // TYPES FOR HANDLING CHAT
-export enum ChatState { ChatList = "chatList", UsersSearch = "usersSearch" }
+export enum ChatUIState { ChatList = "chatList", UsersSearch = "usersSearch" }
 
 export interface ChatListSchema {
     name: string,

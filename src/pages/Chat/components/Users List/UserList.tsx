@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { useFetchData } from '../../../../hooks/useFetchData'
 import useObjectForReqest from '../../../../hooks/useObjectForRequest'
@@ -13,28 +13,36 @@ const UserList = () => {
     const fetcher = useFetchData()
     const objectForRequest = useObjectForReqest(Endpoint.matchingUsers, RequestsType.get, false)
     objectForRequest.endpoint = `${objectForRequest.endpoint}/${searchString}`
-    console.log(objectForRequest)
 
-    const {data:usersMatched } = useQuery(['users'], 
+    const {data:usersMatched } = useQuery(['users', searchString], 
         () => fetcher(objectForRequest), {
             enabled: searchString !== "",
             select:(res) => res._data as Array<UserMatch>
     })
     
-   // console.log(usersMatched)
-    
     return (
         <div className='Chat_list-container w-full'>
             <Searcher setSearchString={setSearchString} />
-            {
-            usersMatched?.map((user:UserMatch) => (
-                    <ChatListItem
-                        key={user.user_name}
-                        name={user.name}
-                        lastName={user.last_name}  
-                        userName={user.user_name}
-                    />
-                ))
+
+            {   
+                searchString === "" 
+                    ? 
+                    <p className='m-auto text-dark'>Start Making a search</p>
+                    :(
+                        usersMatched &&  // Only renders what is below if usersMatched is defined (as an array) 
+                            (usersMatched.length > 0
+                             ?
+                                usersMatched.map((user:UserMatch) => (
+                                    <ChatListItem
+                                    key={user.user_name}
+                                    name={user.name}
+                                    lastName={user.last_name}  
+                                    userName={user.user_name}
+                                    />
+                                ))
+                            : <p className='m-auto text-dark'>No Users Found</p>
+                            )
+                    )
             }
     </div>
   )
