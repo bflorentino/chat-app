@@ -12,7 +12,7 @@
     @extend %flex-column;
     width: 40%;
     height: 100%;
-    border: 1px solid $light-gray3;
+    border: 1px solid $light-gray1;
     box-shadow: 0 1px 2px 0 rgb(0, 0, math.div(0, 0.05));
     min-width: 350px;
 }
@@ -32,7 +32,7 @@
 }
 
 .Chat_separator {
-    border-bottom: 1px solid $light-gray3;
+    border-bottom: 1px solid $light-gray1;
     @extend %flex-row;
 }
 
@@ -48,13 +48,51 @@
     background-color: $light-gray3;
     height: 8%;
     width: 100%;
+    border-bottom: 1px solid $light-gray1;
 }
 
 .Chat_messages-container {
-    background-color: $dark;
-    height: 85%;
+    background-color: $light-gray3;
+    height: 84%;
+    padding: 20px;
+    border-bottom: 1px solid $light-gray1;
+    overflow: auto;
+}
+
+.Chat_message {
+    @extend %flex-row;
+    margin-bottom: 10px;
+}
+
+.message-r {
+    flex-direction: row-reverse;
+}
+
+.Chat_bubble{
+    background-color: $white;
+    border-radius: 15px 15px 15px 0px;
+    max-width: 250px;
+    padding: 10px;
+}
+
+.bubble-r {
+    border-radius: 15px 15px 0px 15px;
+}
+
+.Chat_message-info{
+  @extend %flex-column;
 }
 
 .Chat_write-box{
-    @extend %flex-row-centered;
+    @extend %flex-row-between;
+    height: 8%;
+    background-color: $light-gray3;
+ 
+    textarea {
+        border: none;
+        border-radius: 10px;
+        resize: none;
+        width: 85%;
+        outline: none;
+    }
 }

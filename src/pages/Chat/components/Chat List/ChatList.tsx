@@ -8,7 +8,7 @@ const ChatList = () => {
 
   return ( 
     
-    <div className='Chat_list-container w-full'>
+    <div className='Chat_list-container w-full styled-scroll'>
 
       <Searcher setSearchString={setSearchString}  />
     
