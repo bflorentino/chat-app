@@ -1,10 +1,21 @@
-import React from 'react'
-import { ChatListSchema } from '../../../../types/types'
+import React, { useContext } from 'react'
+import { ChatListSchema, ChatUIState } from '../../../../types/types'
 import noProfilePic from '../../../../assets/noprofile.png'
+import { useSearchParams } from 'react-router-dom'
+import { ChatUtilitiesContext } from '../../../../context/context'
 
 const ChatListItem = ({userName,name, lastName, lastMessage, date}:ChatListSchema) => {
+
+  const { setChatContainerState } = useContext(ChatUtilitiesContext)
+  const [ searchParams, setSearchParams ] = useSearchParams() 
+
+  const handleClickOnUser = () => {
+    setChatContainerState(ChatUIState.InChat),
+    setSearchParams({user:userName}, { replace:true })
+   }
+
   return (
-    <div className='Chat_list-item pointer'>
+    <div className='Chat_list-item pointer' onClick={handleClickOnUser}>
 
       <div className='w-10 p-1 py-2'>
           <img 

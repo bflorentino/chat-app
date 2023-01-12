@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { AuthContextProps } from "../types/types";
+import { AuthContextProps, ChatUIState, IChatUtilitiesContextProps } from "../types/types";
 import { defaultAuthContextState } from "../reducers/authReducer";
 
 export const AuthContext = createContext<AuthContextProps>({
@@ -7,4 +7,11 @@ export const AuthContext = createContext<AuthContextProps>({
     AuthDispatch: ( ) => {}
 })
 
+const defaultChatUtilities = {
+    chatContainerState: ChatUIState.ChatList,
+    setChatContainerState: () => {},
+    inChatWithUser: null,
+    setInChatWithUser: () => {}
+}
 
+export const ChatUtilitiesContext = createContext<IChatUtilitiesContextProps>(defaultChatUtilities)

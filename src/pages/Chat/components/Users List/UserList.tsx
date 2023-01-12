@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useQuery } from 'react-query'
+import { ChatUtilitiesContext } from '../../../../context/context'
 import { useFetchData } from '../../../../hooks/useFetchData'
 import useObjectForReqest from '../../../../hooks/useObjectForRequest'
-import { Endpoint, RequestsType, UserMatch } from '../../../../types/types'
+import { ChatUIState, Endpoint, RequestsType, UserMatch } from '../../../../types/types'
 import ChatListItem from '../Chat List/ChatListItem'
 import Searcher from '../Searcher'
 

@@ -43,3 +43,18 @@
 .Chat_searcher{
     @extend %flex-row-centered;
 }
+
+.Chat_user-banner {
+    background-color: $light-gray3;
+    height: 8%;
+    width: 100%;
+}
+
+.Chat_messages-container {
+    background-color: $dark;
+    height: 85%;
+}
+
+.Chat_write-box{
+    @extend %flex-row-centered;
+}

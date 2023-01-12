@@ -1,13 +1,14 @@
 import React, { useContext, useState } from 'react'
-import { AuthContext } from '../../context/context'
+import { AuthContext, ChatUtilitiesContext } from '../../context/context'
 import { AuthContextActions, ChatUIState } from '../../types/types'
 
 import noProfile from '../../assets/noprofile.png'
 import logout from '../../assets/logout.png'
 
-const Navbar = ({setChatState}:{setChatState:(state:ChatUIState) => void}) => {
+const Navbar = () => {
   
   const { AuthState, AuthDispatch } = useContext(AuthContext)
+  const { setChatContainerState } = useContext(ChatUtilitiesContext)
 
   const onAccount = () => {
     document.getElementById("account")?.classList.toggle("none")
@@ -45,12 +46,12 @@ const Navbar = ({setChatState}:{setChatState:(state:ChatUIState) => void}) => {
 
       <div className='chat-state'>
         <span>
-            <button className='btn text-dark pointer p-2 normalP Nav_hover-item' onClick={()=>setChatState(ChatUIState.ChatList)}>
+            <button className='btn text-dark pointer p-2 normalP Nav_hover-item' onClick={()=>setChatContainerState(ChatUIState.ChatList)}>
               Tus Chats
             </button>
         </span>
         <span>
-            <button className='btn text-dark pointer p-2 normalP Nav_hover-item' onClick={()=>setChatState(ChatUIState.UsersSearch)}>
+            <button className='btn text-dark pointer p-2 normalP Nav_hover-item' onClick={()=>setChatContainerState(ChatUIState.UsersSearch)}>
               Buscar Usuarios
             </button>
         </span>

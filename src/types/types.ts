@@ -30,12 +30,12 @@ export interface AuthContextProps {
 
 // Chats Context
 export enum ChatsContextActionsType {
-                                    RECEIVE_MESSAGE    = "receive_message",
-                                    UPDATE_MESSAGE     = "update_message",
-                                    DELETE_MESSAGE     = 'delete_message', 
-                                    ADD_CHAT           = 'add_chat',
-                                    DELETE_CHAT        = 'delete_chat' 
-                                }
+    RECEIVE_MESSAGE    = "receive_message",
+    UPDATE_MESSAGE     = "update_message",
+    DELETE_MESSAGE     = 'delete_message', 
+    ADD_CHAT           = 'add_chat',
+    DELETE_CHAT        = 'delete_chat' 
+}
 
 
 export interface MessageSchema {
@@ -47,8 +47,8 @@ export interface MessageSchema {
 }
 
 export interface ChatSchema {
-    user1:string,
-    user2:string,
+    user1    :string,
+    user2    :string,
     messages : MessageSchema[]
 }
 
@@ -57,7 +57,7 @@ export type ChatContextState = { [chatId:string] : ChatSchema }
 export type TChatContextPayload = ChatSchema | ChatContextState
 
 export interface ChatsContextActions {
-    type: ChatsContextActionsType,
+    type   : ChatsContextActionsType,
     payload: TChatContextPayload
 }
 
@@ -66,14 +66,23 @@ export interface IChatContextProps {
     ChatDispatch: React.Dispatch<ChatsContextActions>
 }
 
+
+// Chat Utilities Context
+export interface IChatUtilitiesContextProps {
+    chatContainerState: ChatUIState,
+    setChatContainerState: (s:ChatUIState) => void,
+    inChatWithUser:string | null,
+    setInChatWithUser:(s:string | null) => void
+}
+
 /************************************************************************ */
 
 // TYPES FOR REACT EVENTS
 export type InputEvent = React.FormEvent<HTMLInputElement>  | null
 export type FocusEvent = React.FocusEvent<HTMLInputElement> | null
 
+/************************************************************************* */
 
-/**********************************************************************************/
 // TYPES FOR HANDLING HTTP REQUESTS
 export enum RequestsType { get = 'GET', post = 'POST', put = 'PUT', delete = "DELETE" }
 
@@ -101,7 +110,7 @@ export interface ServerResponse {
 /************************************************************************************/
 
 // TYPES FOR HANDLING CHAT
-export enum ChatUIState { ChatList = "chatList", UsersSearch = "usersSearch" }
+export enum ChatUIState { ChatList = "chatList", UsersSearch = "usersSearch", InChat = "inChat" }
 
 export interface ChatListSchema {
     name: string,

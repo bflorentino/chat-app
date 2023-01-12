@@ -1,31 +1,43 @@
 import React, { useContext, useState } from 'react'
-import { AuthContext } from '../../context/context'
+import { ChatUtilitiesContext } from '../../context/context'
 import Navbar from '../../shared/components/Navbar'
 import { ChatUIState } from '../../types/types'
 import ChatList from './components/Chat List/ChatList'
+import Chat from './components/Messages/Chat'
 import UserList from './components/Users List/UserList'
 
 const ChatPage = () => {
 
-  const [ chatContainerState, setChatContainerState ] = useState<ChatUIState>(ChatUIState.ChatList)
+  const { chatContainerState, inChatWithUser } = useContext(ChatUtilitiesContext)
 
   return (
     <div className='Chat_page'>
       <div className='Chat_container'>
-        <Navbar setChatState={setChatContainerState}/>
+        
+        { 
+          //Only renders navbar if user is not placed inside a chat
+          chatContainerState !== ChatUIState.InChat 
+            &&
+          <Navbar /> 
+        }
         
         {
           chatContainerState === ChatUIState.ChatList 
             &&
-          <ChatList  />
+          <ChatList />
         }
 
         {
           chatContainerState === ChatUIState.UsersSearch 
             &&
-          <UserList  />
+          <UserList />
         }
 
+        {
+          chatContainerState === ChatUIState.InChat
+            &&
+          <Chat />
+        }
       </div>
     </div>
   )
