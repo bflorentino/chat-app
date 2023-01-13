@@ -12,23 +12,22 @@ const ChatList = () => {
 
       <Searcher setSearchString={setSearchString}  />
     
-    <ul>
-      {
-        [1,2,3,4,5,6,7,8,9,10].map(i => (
-          <li key={i}>
-            <ChatListItem 
-                name={'Bryan'} 
-                lastName={'montero'}  
-                userName={'bflorentino'}
-                lastMessage={'Ayer me mude de donde vivía en San Isidro'}
-                date={new Date().toLocaleDateString()}  
-                />
-          </li>
+      <ul>
+        {
+          [1,2,3,4,5,6,7,8,9,10].map(i => (
+            <li key={i}>
+              <ChatListItem 
+                  name={'Bryan'} 
+                  last_name={'montero'}  
+                  user_name={'bflorentino'}
+                  lastMessage={'Ayer me mude de donde vivía en San Isidro'}
+                  date={new Date().toLocaleDateString()}  
+              />
+            </li>
           ))
         }
-    </ul>
-
-      </div>
+      </ul>
+    </div>
 )}
 
 export default ChatList

@@ -1,8 +1,33 @@
 import React from "react"
+import { Socket } from "socket.io-client"
 
 // TYPES AND INTERFACES FOR CONTEXT AND REDUCERS
 
 /************************************************************************ */
+
+// Socket Context
+export enum SocketActionTypes {UPDATE_SOCKET ='update_socket', 
+                            UPDATE_UID='update_uid', 
+                            UPDATE_USERS='update_users', 
+                            REMOVE_USER='remove_user'
+                        }
+export interface SocketContextState {
+    socket: Socket | undefined,
+    uid: string,
+    usersOnline: string[]
+}
+
+export type SocketContextPayload = string | string[] | Socket | SocketContextState
+
+export interface SocketContextActions {
+    type:SocketActionTypes,
+    payload:SocketContextPayload
+}
+
+export interface SocketContextProps {
+    SocketState:SocketContextState,
+    SocketDispatch: React.Dispatch<SocketContextActions> 
+}
 
 // Auth Context
 export enum AuthContextActions { LOGIN = "login", LOGOUT = "logout" }
@@ -66,13 +91,12 @@ export interface IChatContextProps {
     ChatDispatch: React.Dispatch<ChatsContextActions>
 }
 
-
 // Chat Utilities Context
 export interface IChatUtilitiesContextProps {
     chatContainerState: ChatUIState,
     setChatContainerState: (s:ChatUIState) => void,
-    inChatWithUser:string | null,
-    setInChatWithUser:(s:string | null) => void
+    inChatWithUser:UserChatSchema | null,
+    setInChatWithUser:(s:UserChatSchema | null) => void
 }
 
 /************************************************************************ */
@@ -112,17 +136,11 @@ export interface ServerResponse {
 // TYPES FOR HANDLING CHAT
 export enum ChatUIState { ChatList = "chatList", UsersSearch = "usersSearch", InChat = "inChat" }
 
-export interface ChatListSchema {
-    name: string,
-    lastName:string,
-    userName:string,
-    lastMessage?:string,
-    date?: string
-}
-
 // Users Matched
-export interface UserMatch {
+export interface UserChatSchema {
     name:string,
     last_name:string,
     user_name:string,
+    lastMessage?:string,
+    date?: string
 }

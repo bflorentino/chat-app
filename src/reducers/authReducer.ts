@@ -9,7 +9,7 @@ export const defaultAuthContextState : AuthContextState = {
     lastName:"",
     token:"",
     userName:"",
-    email:""
+    email:""   
 } 
 
 const authReducer = (state:AuthContextState, action:ContextActions):AuthContextState => {

@@ -45,6 +45,8 @@
 }
 
 .Chat_user-banner {
+    @extend %flex-row;
+    align-items: center;
     background-color: $light-gray3;
     height: 8%;
     width: 100%;
@@ -94,5 +96,6 @@
         resize: none;
         width: 85%;
         outline: none;
+        font-family: $inter, sans-serif;
     }
 }

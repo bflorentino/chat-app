@@ -3,7 +3,7 @@ import { useQuery } from 'react-query'
 import { ChatUtilitiesContext } from '../../../../context/context'
 import { useFetchData } from '../../../../hooks/useFetchData'
 import useObjectForReqest from '../../../../hooks/useObjectForRequest'
-import { ChatUIState, Endpoint, RequestsType, UserMatch } from '../../../../types/types'
+import { ChatUIState, Endpoint, RequestsType, UserChatSchema } from '../../../../types/types'
 import ChatListItem from '../Chat List/ChatListItem'
 import Searcher from '../Searcher'
 
@@ -18,7 +18,7 @@ const UserList = () => {
     const {data:usersMatched } = useQuery(['users', searchString], 
         () => fetcher(objectForRequest), {
             enabled: searchString !== "",
-            select:(res) => res._data as Array<UserMatch>
+            select:(res) => res._data as Array<UserChatSchema>
     })
     
     return (
@@ -33,12 +33,12 @@ const UserList = () => {
                         usersMatched &&  // Only renders what is below if usersMatched is defined (as an array) 
                             (usersMatched.length > 0
                              ?
-                                usersMatched.map((user:UserMatch) => (
+                                usersMatched.map((user:UserChatSchema) => (
                                     <ChatListItem
-                                    key={user.user_name}
-                                    name={user.name}
-                                    lastName={user.last_name}  
-                                    userName={user.user_name}
+                                        key={user.user_name}
+                                        name={user.name}
+                                        last_name={user.last_name}  
+                                        user_name={user.user_name}
                                     />
                                 ))
                             : <p className='m-auto text-dark'>No Users Found</p>
