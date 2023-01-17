@@ -11,7 +11,6 @@ import ChatPage from '../pages/Chat/ChatPage'
 
 import { AuthContext } from '../context/context'
 import { AuthContextActions } from '../types/types'
-import Navbar from '../shared/components/Navbar'
 
 const AppRouter = ()=> {
 

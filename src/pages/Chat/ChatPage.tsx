@@ -1,12 +1,15 @@
-import React, { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { ChatUtilitiesContext } from '../../context/context'
 import Navbar from '../../shared/components/Navbar'
 import { ChatUIState } from '../../types/types'
 import ChatList from './components/Chat List/ChatList'
 import Chat from './components/Messages/Chat'
 import UserList from './components/Users List/UserList'
+import { useSocketListener } from '../../hooks/useSocketListeners'
 
 const ChatPage = () => {
+
+  useSocketListener()
 
   const { chatContainerState, inChatWithUser } = useContext(ChatUtilitiesContext)
 

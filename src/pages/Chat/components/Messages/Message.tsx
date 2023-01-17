@@ -1,7 +1,5 @@
 const Message = ({me}:{me:boolean}) => {
 
-  
-  
   return (
     <div className={`Chat_message ${me && 'message-r'}`  } >
       {/* <img src={noPrfoile} alt="" className='' /> */}

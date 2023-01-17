@@ -1,17 +1,30 @@
-import { useContext } from 'react'
-import { ChatUtilitiesContext } from '../../../../context/context'
-import { ChatUIState } from '../../../../types/types'
+import React, { useContext, useState } from 'react'
+import { AuthContext, ChatUtilitiesContext, SocketContext } from '../../../../context/context'
+import { ChatUIState, SocketEvents } from '../../../../types/types'
 import noProfile from '../../../../assets/noprofile.png'
 import Message from './Message'
+import {v4} from 'uuid'
 
 const Chat = () => {
 
   const { setChatContainerState, inChatWithUser, setInChatWithUser } = useContext(ChatUtilitiesContext)
-
+  const { AuthState:{userName}} = useContext(AuthContext)
+  const { SocketState:{socket}, SocketDispatch } = useContext(SocketContext)
+  const [ messageTyped, setMessageTyped ] = useState<string>("")
 
   const handleGoBack = ()=> {
     setChatContainerState(ChatUIState.ChatList)
     setInChatWithUser(null)
+  }
+
+  const handleSendMessage = ()=> {
+    
+    if(socket && messageTyped){
+
+      const messageToSend = {content:messageTyped, was_seen:false, user_from:userName, messageId:v4()}
+      socket.emit(SocketEvents.sendMessage, messageToSend, userName, inChatWithUser?.user_name)
+      setMessageTyped("")
+    }
   }
 
   return (
@@ -65,8 +78,10 @@ const Chat = () => {
         <textarea  
           className='p-2'
           placeholder='Write your message'
+          value={messageTyped}
+          onChange= {(e:React.ChangeEvent<HTMLTextAreaElement>)=>setMessageTyped(e.target.value) }
         />
-          <button className='btn pointer'>
+          <button className='btn pointer' onClick={handleSendMessage}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="img_svg-icon">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
           </svg>

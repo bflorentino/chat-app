@@ -14,10 +14,10 @@ export enum SocketActionTypes {UPDATE_SOCKET ='update_socket',
 export interface SocketContextState {
     socket: Socket | undefined,
     uid: string,
-    usersOnline: string[]
+    usersOnline: {[key:string]:string}
 }
 
-export type SocketContextPayload = string | string[] | Socket | SocketContextState
+export type SocketContextPayload = string | {[key:string]:string} | Socket | SocketContextState
 
 export interface SocketContextActions {
     type:SocketActionTypes,
@@ -143,4 +143,21 @@ export interface UserChatSchema {
     user_name:string,
     lastMessage?:string,
     date?: string
+}
+
+
+// SOCKET EVENTS NAMES
+export const enum SocketEvents { connect= "connect",
+                                userConnected = "user-connected",
+                                disconnect = "disconnect",
+                                userDisconnected = "user-disconnected",
+                                sendMessage = "sendMessage",
+                                messageReceived = "messageReceived",
+                                updateMessage = "updateMessage",
+                                messagedUpdated = "messageUpdated",
+                                deleteMessage = "deleteMessage",
+                                messageDeleted = "messageDeleted",
+                                readMessage = "readMessage",
+                                messageRead = "messageRead",
+                                errorInMessageSend="errorInMessageSend"
 }
