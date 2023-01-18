@@ -1,13 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { useSocket } from "./useSocket";
 import { SOCKET_URL } from "../constants";
-import { AuthContext, SocketContext } from "../context/context";
-import { SocketActionTypes, SocketEvents } from "../types/types";
+import { AuthContext, ChatContext, SocketContext } from "../context/context";
+import { ChatsContextActionsType, IncomingMessage, SocketActionTypes, SocketEvents } from "../types/types";
 
 // HOOK TO MANAGE ALL MESSAGES RECEIVED FROM SOCKETS    
 export const useSocketListener = async () => {
 
     const { SocketDispatch } = useContext(SocketContext)
+    const { ChatDispatch } = useContext(ChatContext)
     const { AuthState:{userName}} = useContext(AuthContext)
 
     const socket = useSocket(SOCKET_URL, {
@@ -29,8 +30,9 @@ export const useSocketListener = async () => {
         })
 
         // LISTENERS TO MANAGE CHATS AND MESSAGES
-        socket.on(SocketEvents.messageReceived, message => {
-            console.log(message)
+        socket.on(SocketEvents.messageReceived, (message:IncomingMessage) => {
+          ChatDispatch({type:ChatsContextActionsType.RECEIVE_MESSAGE, payload:message})
+          console.log(message)
         })
 
     }, [])

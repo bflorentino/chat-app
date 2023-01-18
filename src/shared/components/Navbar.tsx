@@ -7,7 +7,7 @@ import logout from '../../assets/logout.png'
 
 const Navbar = () => {
   
-  const { AuthState, AuthDispatch } = useContext(AuthContext)
+  const { AuthState:{userName}, AuthDispatch } = useContext(AuthContext)
   const { setChatContainerState } = useContext(ChatUtilitiesContext)
 
   const onAccount = () => {
@@ -34,7 +34,7 @@ const Navbar = () => {
         <div id='account' className='none Nav_toggle py-1'>
             <div className='Nav_item px-1'>
               <img src={noProfile} alt="Profile Picture" title='Profile Picture' />
-              <p className='ml-1'>{AuthState.userName}</p>
+              <p className='ml-1'>{userName}</p>
             </div>
 
             <button onClick={handleLogout} className='btn Nav_item px-1 Nav_hover-item pointer w-full mt-1 py-1'>

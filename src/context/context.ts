@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { AuthContextProps, ChatUIState, IChatUtilitiesContextProps, SocketContextProps } from "../types/types";
+import { AuthContextProps, ChatContextProps, ChatUIState, IChatUtilitiesContextProps, SocketContextProps } from "../types/types";
 import { defaultAuthContextState } from "../reducers/authReducer";
 import { defaultSocketContextState } from "../reducers/socketReducer";
 
@@ -20,4 +20,9 @@ export const ChatUtilitiesContext = createContext<IChatUtilitiesContextProps>(de
 export const SocketContext = createContext<SocketContextProps>({
     SocketState:defaultSocketContextState,
     SocketDispatch:()=>{}
+})
+
+export const ChatContext = createContext<ChatContextProps>({
+    ChatState: {},
+    ChatDispatch:() => {}
 })

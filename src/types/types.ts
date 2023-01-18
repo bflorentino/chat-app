@@ -55,6 +55,7 @@ export interface AuthContextProps {
 
 // Chats Context
 export enum ChatsContextActionsType {
+    GET_CHATS          = "get_chats",
     RECEIVE_MESSAGE    = "receive_message",
     UPDATE_MESSAGE     = "update_message",
     DELETE_MESSAGE     = 'delete_message', 
@@ -62,31 +63,37 @@ export enum ChatsContextActionsType {
     DELETE_CHAT        = 'delete_chat' 
 }
 
-
 export interface MessageSchema {
     messageId: string,
-    userFrom: string,
+    user_from: string,
     content: string,
-    time:string,
-    wasSeen:Boolean
+    time?:string,
+    date?:string,
+    was_seen?:Boolean
 }
 
 export interface ChatSchema {
-    user1    :string,
-    user2    :string,
-    messages : MessageSchema[]
+    _id       :string,
+    user_1    :string,
+    user_2    :string,
+    messages  :MessageSchema[]
+}
+
+export interface IncomingMessage {
+    message:MessageSchema,
+    chatId:string
 }
 
 export type ChatContextState = { [chatId:string] : ChatSchema }
 
-export type TChatContextPayload = ChatSchema | ChatContextState
+export type TChatContextPayload = ChatContextState | IncomingMessage
 
 export interface ChatsContextActions {
     type   : ChatsContextActionsType,
     payload: TChatContextPayload
 }
 
-export interface IChatContextProps {
+export interface ChatContextProps {
     ChatState: ChatContextState,
     ChatDispatch: React.Dispatch<ChatsContextActions>
 }
@@ -113,7 +120,8 @@ export enum RequestsType { get = 'GET', post = 'POST', put = 'PUT', delete = "DE
 export enum Endpoint {
     Register      = 'authentication/register',
     login         = 'authentication/login',
-    matchingUsers = 'searchUsers' 
+    matchingUsers = 'searchUsers',
+    getChats      = 'chats'
 }
 
 export interface RequestObject {
@@ -142,9 +150,9 @@ export interface UserChatSchema {
     last_name:string,
     user_name:string,
     lastMessage?:string,
-    date?: string
+    date?: string,
+    _id: string
 }
-
 
 // SOCKET EVENTS NAMES
 export const enum SocketEvents { connect= "connect",

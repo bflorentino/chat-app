@@ -3,7 +3,7 @@ import { Socket } from "socket.io-client"
 
 export const defaultSocketContextState:SocketContextState = {
     socket:undefined,
-    uid:'',
+    uid:"",
     usersOnline:{}
 }
 
@@ -20,7 +20,8 @@ export const socketReducer = (state:SocketContextState, action:SocketContextActi
             return {...state, usersOnline:action.payload as {[key:string]:string} }
 
         case SocketActionTypes.REMOVE_USER:
-            return {...state, usersOnline: delete state.usersOnline[action.payload as string]}
+            delete state.usersOnline[action.payload as string]
+            return {...state }
 
         default:
             return state

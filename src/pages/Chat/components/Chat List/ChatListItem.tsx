@@ -4,14 +4,14 @@ import noProfilePic from '../../../../assets/noprofile.png'
 import { useSearchParams } from 'react-router-dom'
 import { ChatUtilitiesContext } from '../../../../context/context'
 
-const ChatListItem = ({user_name,name, last_name, lastMessage, date}:UserChatSchema) => {
+const ChatListItem = ({user_name,name, last_name, lastMessage, date, _id}:UserChatSchema) => {
 
   const { setChatContainerState, setInChatWithUser } = useContext(ChatUtilitiesContext)
   const [ searchParams, setSearchParams ] = useSearchParams() 
 
   const handleClickOnUser = () => {
     setChatContainerState(ChatUIState.InChat),
-    setInChatWithUser({user_name, name, last_name})
+    setInChatWithUser({user_name, name, last_name, _id})
    }
 
   return (

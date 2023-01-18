@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
-import { AuthContext, ChatUtilitiesContext, SocketContext } from '../../../../context/context'
-import { ChatUIState, SocketEvents } from '../../../../types/types'
+import { AuthContext, ChatContext, ChatUtilitiesContext, SocketContext } from '../../../../context/context'
+import { ChatUIState, MessageSchema, SocketEvents } from '../../../../types/types'
 import noProfile from '../../../../assets/noprofile.png'
 import Message from './Message'
 import {v4} from 'uuid'
@@ -10,6 +10,8 @@ const Chat = () => {
   const { setChatContainerState, inChatWithUser, setInChatWithUser } = useContext(ChatUtilitiesContext)
   const { AuthState:{userName}} = useContext(AuthContext)
   const { SocketState:{socket}, SocketDispatch } = useContext(SocketContext)
+  const { ChatState } = useContext(ChatContext)
+
   const [ messageTyped, setMessageTyped ] = useState<string>("")
 
   const handleGoBack = ()=> {
@@ -21,7 +23,13 @@ const Chat = () => {
     
     if(socket && messageTyped){
 
-      const messageToSend = {content:messageTyped, was_seen:false, user_from:userName, messageId:v4()}
+      const messageToSend:MessageSchema = {
+                      content:messageTyped, 
+                      was_seen:false, 
+                      user_from:userName, 
+                      messageId:v4()
+                  }
+      
       socket.emit(SocketEvents.sendMessage, messageToSend, userName, inChatWithUser?.user_name)
       setMessageTyped("")
     }
@@ -60,9 +68,18 @@ const Chat = () => {
 
         <ul className='Chat_messages-container styled-scroll'>
         {
-          [{me:false},{me:true}, {me:true},{me:false},{me:true},{me:false},{me:true},{me:false},{me:true}].map((m, i) => (
-            <li key={i}>
-              <Message me={m.me} />
+          // Only render messages if exists a chat with the user
+          (inChatWithUser && ChatState[inChatWithUser._id]) 
+              &&
+            ChatState[inChatWithUser._id].messages.map((m) => (
+            <li key={m.messageId}>
+              <Message 
+                content={m.content}
+                messageId={m.messageId}
+                date={m.date}
+                time={m.time}
+                user_from={m.user_from}
+              />
             </li>
           ))
         }
