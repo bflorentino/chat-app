@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext, ChatContext, ChatUtilitiesContext, SocketContext } from '../../../../context/context'
 import { ChatUIState, MessageSchema, SocketEvents } from '../../../../types/types'
 import noProfile from '../../../../assets/noprofile.png'
@@ -13,6 +13,14 @@ const Chat = () => {
   const { ChatState } = useContext(ChatContext)
 
   const [ messageTyped, setMessageTyped ] = useState<string>("")
+
+  useEffect(()=> {
+
+    if(!inChatWithUser?._id){
+
+    }
+
+  }, [ChatState])
 
   const handleGoBack = ()=> {
     setChatContainerState(ChatUIState.ChatList)
@@ -69,7 +77,7 @@ const Chat = () => {
         <ul className='Chat_messages-container styled-scroll'>
         {
           // Only render messages if exists a chat with the user
-          (inChatWithUser && ChatState[inChatWithUser._id]) 
+          (inChatWithUser && inChatWithUser._id && ChatState[inChatWithUser._id]) 
               &&
             ChatState[inChatWithUser._id].messages.map((m) => (
             <li key={m.messageId}>

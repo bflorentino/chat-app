@@ -79,18 +79,18 @@ export interface ChatSchema {
     messages  :MessageSchema[]
 }
 
-export interface IncomingMessage {
+export interface ArrivingMessage {
     message:MessageSchema,
     chatId:string
 }
 
 export type ChatContextState = { [chatId:string] : ChatSchema }
 
-export type TChatContextPayload = ChatContextState | IncomingMessage
+export type ChatContextPayload = ChatContextState | ArrivingMessage | ChatSchema
 
 export interface ChatsContextActions {
     type   : ChatsContextActionsType,
-    payload: TChatContextPayload
+    payload: ChatContextPayload
 }
 
 export interface ChatContextProps {
@@ -103,7 +103,7 @@ export interface IChatUtilitiesContextProps {
     chatContainerState: ChatUIState,
     setChatContainerState: (s:ChatUIState) => void,
     inChatWithUser:UserChatSchema | null,
-    setInChatWithUser:(s:UserChatSchema | null) => void
+    setInChatWithUser:(s:UserChatSchema | null  ) => void
 }
 
 /************************************************************************ */
@@ -151,7 +151,7 @@ export interface UserChatSchema {
     user_name:string,
     lastMessage?:string,
     date?: string,
-    _id: string
+    _id?: string
 }
 
 // SOCKET EVENTS NAMES

@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { useSocket } from "./useSocket";
 import { SOCKET_URL } from "../constants";
-import { AuthContext, ChatContext, SocketContext } from "../context/context";
-import { ChatsContextActionsType, IncomingMessage, SocketActionTypes, SocketEvents } from "../types/types";
+import { AuthContext, ChatContext, ChatUtilitiesContext, SocketContext } from "../context/context";
+import { ChatSchema, ChatsContextActionsType, ArrivingMessage, SocketActionTypes, SocketEvents, UserChatSchema } from "../types/types";
 
 // HOOK TO MANAGE ALL MESSAGES RECEIVED FROM SOCKETS    
 export const useSocketListener = async () => {
@@ -10,6 +10,8 @@ export const useSocketListener = async () => {
     const { SocketDispatch } = useContext(SocketContext)
     const { ChatDispatch } = useContext(ChatContext)
     const { AuthState:{userName}} = useContext(AuthContext)
+
+    const { setInChatWithUser, inChatWithUser } = useContext(ChatUtilitiesContext)
 
     const socket = useSocket(SOCKET_URL, {
         reconnectionAttempts:5,
@@ -30,8 +32,19 @@ export const useSocketListener = async () => {
         })
 
         // LISTENERS TO MANAGE CHATS AND MESSAGES
-        socket.on(SocketEvents.messageReceived, (message:IncomingMessage) => {
-          ChatDispatch({type:ChatsContextActionsType.RECEIVE_MESSAGE, payload:message})
+        socket.on(SocketEvents.messageReceived, (message:ChatSchema | ArrivingMessage) => {
+
+          if("_id" in message){
+            ChatDispatch({type:ChatsContextActionsType.ADD_CHAT, payload:message})
+            if(inChatWithUser){
+              setInChatWithUser({...inChatWithUser, _id:message._id})
+            }else{
+              console.log(inChatWithUser)
+            }
+          }
+          else{
+            ChatDispatch({type:ChatsContextActionsType.RECEIVE_MESSAGE, payload:message})
+          }
           console.log(message)
         })
 
