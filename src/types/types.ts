@@ -102,8 +102,8 @@ export interface ChatContextProps {
 export interface IChatUtilitiesContextProps {
     chatContainerState: ChatUIState,
     setChatContainerState: (s:ChatUIState) => void,
-    inChatWithUser:UserChatSchema | null,
-    setInChatWithUser:(s:UserChatSchema | null  ) => void
+    inChatWithUser:UserChatSchema,
+    setInChatWithUser: React.Dispatch<React.SetStateAction<UserChatSchema>>
 }
 
 /************************************************************************ */
@@ -146,9 +146,9 @@ export enum ChatUIState { ChatList = "chatList", UsersSearch = "usersSearch", In
 
 // Users Matched
 export interface UserChatSchema {
-    name:string,
-    last_name:string,
-    user_name:string,
+    name?:string,
+    last_name?:string,
+    user_name?:string,
     lastMessage?:string,
     date?: string,
     _id?: string

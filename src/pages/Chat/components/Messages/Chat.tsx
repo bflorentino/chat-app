@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { AuthContext, ChatContext, ChatUtilitiesContext, SocketContext } from '../../../../context/context'
 import { ChatUIState, MessageSchema, SocketEvents } from '../../../../types/types'
 import noProfile from '../../../../assets/noprofile.png'
@@ -14,17 +14,9 @@ const Chat = () => {
 
   const [ messageTyped, setMessageTyped ] = useState<string>("")
 
-  useEffect(()=> {
-
-    if(!inChatWithUser?._id){
-
-    }
-
-  }, [ChatState])
-
   const handleGoBack = ()=> {
     setChatContainerState(ChatUIState.ChatList)
-    setInChatWithUser(null)
+    setInChatWithUser({})
   }
 
   const handleSendMessage = ()=> {

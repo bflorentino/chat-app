@@ -1,6 +1,5 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { useQuery } from 'react-query'
-import { ChatUtilitiesContext } from '../../../../context/context'
 import { useFetchData } from '../../../../hooks/useFetchData'
 import useObjectForReqest from '../../../../hooks/useObjectForRequest'
 import { ChatUIState, Endpoint, RequestsType, UserChatSchema } from '../../../../types/types'
@@ -39,6 +38,7 @@ const UserList = () => {
                                         name={user.name}
                                         last_name={user.last_name}  
                                         user_name={user.user_name}
+                                        _id={"De PRueba"}
                                     />
                                 ))
                             : <p className='m-auto text-dark'>No Users Found</p>

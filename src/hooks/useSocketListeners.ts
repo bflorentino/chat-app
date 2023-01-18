@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { useSocket } from "./useSocket";
 import { SOCKET_URL } from "../constants";
 import { AuthContext, ChatContext, ChatUtilitiesContext, SocketContext } from "../context/context";
@@ -30,23 +30,21 @@ export const useSocketListener = async () => {
         socket.on(SocketEvents.userConnected, (users:{[key:string]:string}) => {
           SocketDispatch({type:SocketActionTypes.UPDATE_USERS, payload:users})
         })
+    }, [])
 
+    useEffect(()=>{
         // LISTENERS TO MANAGE CHATS AND MESSAGES
         socket.on(SocketEvents.messageReceived, (message:ChatSchema | ArrivingMessage) => {
 
           if("_id" in message){
             ChatDispatch({type:ChatsContextActionsType.ADD_CHAT, payload:message})
-            if(inChatWithUser){
-              setInChatWithUser({...inChatWithUser, _id:message._id})
-            }else{
-              console.log(inChatWithUser)
+              if(inChatWithUser.user_name && (inChatWithUser.user_name === message.user_1 || inChatWithUser.user_name === message.user_2)){
+                setInChatWithUser((userChat) => ({...userChat, _id:message._id}))
+              }
             }
-          }
           else{
             ChatDispatch({type:ChatsContextActionsType.RECEIVE_MESSAGE, payload:message})
           }
-          console.log(message)
         })
-
-    }, [])
+    }, [inChatWithUser])
 }

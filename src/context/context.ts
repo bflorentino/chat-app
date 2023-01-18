@@ -11,7 +11,7 @@ export const AuthContext = createContext<AuthContextProps>({
 const defaultChatUtilities = {
     chatContainerState: ChatUIState.ChatList,
     setChatContainerState: () => {},
-    inChatWithUser: null,
+    inChatWithUser: {},
     setInChatWithUser: () => {}
 }
 

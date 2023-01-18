@@ -20,14 +20,14 @@ function App() {
   const [ ChatState, ChatDispatch ]     = useReducer(chatsReducer, {})
 
   const [ chatContainerState, setChatContainerState ] = useState<ChatUIState>(ChatUIState.ChatList)
-  const [ inChatWithUser, setInChatWithUser ]         = useState<UserChatSchema | null>(null)
+  const [ inChatWithUser, setInChatWithUser ]         = useState<UserChatSchema>({}) 
 
   const forChatUtilitiesContext = {chatContainerState, 
                                   setChatContainerState, 
                                   inChatWithUser, 
                                   setInChatWithUser
                                 }
-
+  
   return (
       <AuthContext.Provider value={{AuthState, AuthDispatch}} >
           <SocketContext.Provider value={{SocketState, SocketDispatch}} >

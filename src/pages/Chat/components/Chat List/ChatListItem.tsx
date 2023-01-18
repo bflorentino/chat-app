@@ -1,7 +1,6 @@
-import React, { useContext } from 'react'
+import  { useContext } from 'react'
 import { UserChatSchema, ChatUIState } from '../../../../types/types'
 import noProfilePic from '../../../../assets/noprofile.png'
-import { useSearchParams } from 'react-router-dom'
 import { ChatUtilitiesContext } from '../../../../context/context'
 
 const ChatListItem = ({user_name,name, last_name, lastMessage, date, _id}:UserChatSchema) => {
@@ -10,8 +9,7 @@ const ChatListItem = ({user_name,name, last_name, lastMessage, date, _id}:UserCh
 
   const handleClickOnUser = () => {
     setChatContainerState(ChatUIState.InChat),
-    setInChatWithUser({user_name, name, last_name})
-    console.log(user_name, name, last_name, _id)
+    setInChatWithUser({user_name, name, last_name, _id} as UserChatSchema)
    }
 
   return (
