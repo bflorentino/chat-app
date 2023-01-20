@@ -9,9 +9,8 @@ import { useSocketListener } from '../../hooks/useSocketListeners'
 
 const ChatPage = () => {
 
-  useSocketListener()
-
-  const { chatContainerState, inChatWithUser } = useContext(ChatUtilitiesContext)
+  const listener = useSocketListener()
+  const { chatContainerState } = useContext(ChatUtilitiesContext)
 
   return (
     <div className='Chat_page'>

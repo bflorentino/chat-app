@@ -15,18 +15,18 @@ export const chatsReducer = (state:ChatContextState={}, action:ChatsContextActio
             payload = <ArrivingMessage>action.payload
             const chatId = payload.chatId as string              
             
-            return { [chatId] : {...state[chatId], 
-                            messages:[...state[chatId].messages, payload.message ] 
+           return {...state,  
+                     [chatId] : {...state[chatId],
+                            messages:[...state[chatId].messages, payload.message ]
                         }, 
-                    ...state
-                } as ChatContextState
-            
+                    } as ChatContextState
+
         case ChatsContextActionsType.ADD_CHAT:
 
             payload = <ChatSchema>action.payload
-            return {[payload._id]:payload, ...state } as ChatContextState
+            return {...state, [payload._id]:payload } as ChatContextState
 
         default:
             return state
-        }
+    }
 }

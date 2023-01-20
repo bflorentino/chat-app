@@ -2,16 +2,15 @@ import { useContext, useEffect } from "react";
 import { useSocket } from "./useSocket";
 import { SOCKET_URL } from "../constants";
 import { AuthContext, ChatContext, ChatUtilitiesContext, SocketContext } from "../context/context";
-import { ChatSchema, ChatsContextActionsType, ArrivingMessage, SocketActionTypes, SocketEvents, UserChatSchema } from "../types/types";
+import { ChatSchema, ChatsContextActionsType, ArrivingMessage, SocketActionTypes, SocketEvents } from "../types/types";
 
 // HOOK TO MANAGE ALL MESSAGES RECEIVED FROM SOCKETS    
-export const useSocketListener = async () => {
+export const useSocketListener = () => {
 
     const { SocketDispatch } = useContext(SocketContext)
     const { ChatDispatch } = useContext(ChatContext)
     const { AuthState:{userName}} = useContext(AuthContext)
-
-    const { setInChatWithUser, inChatWithUser } = useContext(ChatUtilitiesContext)
+    const { setInChatWithUser} = useContext(ChatUtilitiesContext)
 
     const socket = useSocket(SOCKET_URL, {
         reconnectionAttempts:5,
@@ -33,18 +32,24 @@ export const useSocketListener = async () => {
     }, [])
 
     useEffect(()=>{
-        // LISTENERS TO MANAGE CHATS AND MESSAGES
-        socket.on(SocketEvents.messageReceived, (message:ChatSchema | ArrivingMessage) => {
-
-          if("_id" in message){
-            ChatDispatch({type:ChatsContextActionsType.ADD_CHAT, payload:message})
-              if(inChatWithUser.user_name && (inChatWithUser.user_name === message.user_1 || inChatWithUser.user_name === message.user_2)){
-                setInChatWithUser((userChat) => ({...userChat, _id:message._id}))
-              }
+          // LISTENERS TO MANAGE CHATS AND MESSAGES
+          socket.on(SocketEvents.messageReceived, (message:ChatSchema | ArrivingMessage) => {
+            
+            if("_id" in message){
+              
+              ChatDispatch({type:ChatsContextActionsType.ADD_CHAT, payload:message})         
+              
+              setInChatWithUser((userChat) => { 
+                  if(userChat.user_name === message.user_1 || userChat.user_name === message.user_2){
+                    return {...userChat, _id:message._id}
+                  }
+                  return {...userChat}
+                })
+                return
             }
-          else{
+
             ChatDispatch({type:ChatsContextActionsType.RECEIVE_MESSAGE, payload:message})
-          }
         })
-    }, [inChatWithUser])
+    },[])
+
 }
