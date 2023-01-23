@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { useFetchData } from '../../../../hooks/useFetchData'
 import useObjectForReqest from '../../../../hooks/useObjectForRequest'
-import { ChatUIState, Endpoint, RequestsType, UserChatSchema } from '../../../../types/types'
+import { Endpoint, RequestsType, UserChatSchema } from '../../../../types/types'
 import ChatListItem from '../Chat List/ChatListItem'
 import Searcher from '../Searcher'
 

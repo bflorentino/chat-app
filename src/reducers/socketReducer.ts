@@ -21,6 +21,7 @@ export const socketReducer = (state:SocketContextState, action:SocketContextActi
 
         case SocketActionTypes.REMOVE_USER:
             delete state.usersOnline[action.payload as string]
+            console.log(state.usersOnline)
             return {...state }
 
         default:

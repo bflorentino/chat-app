@@ -29,6 +29,11 @@ export const useSocketListener = () => {
         socket.on(SocketEvents.userConnected, (users:{[key:string]:string}) => {
           SocketDispatch({type:SocketActionTypes.UPDATE_USERS, payload:users})
         })
+
+        socket.on(SocketEvents.userDisconnected, (user:string) => {
+          SocketDispatch({type:SocketActionTypes.REMOVE_USER, payload:user})
+        })
+
     }, [])
 
     useEffect(()=>{

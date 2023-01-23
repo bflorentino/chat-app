@@ -1,18 +1,30 @@
 import React, { useContext, useState } from 'react'
 import { AuthContext, ChatContext, ChatUtilitiesContext, SocketContext } from '../../../../context/context'
-import { ChatUIState, MessageSchema, SocketEvents } from '../../../../types/types'
+import { ChatUIState, Endpoint, MessageSchema, RequestsType, SocketEvents } from '../../../../types/types'
 import noProfile from '../../../../assets/noprofile.png'
 import Message from './Message'
 import {v4} from 'uuid'
+import { useQuery } from 'react-query'
+import useObjectForReqest from '../../../../hooks/useObjectForRequest'
+import { useFetchData } from '../../../../hooks/useFetchData'
 
 const Chat = () => {
 
   const { setChatContainerState, inChatWithUser, setInChatWithUser } = useContext(ChatUtilitiesContext)
   const { AuthState:{userName}} = useContext(AuthContext)
-  const { SocketState:{socket}, SocketDispatch } = useContext(SocketContext)
+  const { SocketState:{socket, usersOnline}, SocketDispatch } = useContext(SocketContext)
   const { ChatState } = useContext(ChatContext)
 
   const [ messageTyped, setMessageTyped ] = useState<string>("")
+  const objectForRequest = useObjectForReqest(`${Endpoint.getLastTime}/${inChatWithUser.user_name}` as Endpoint, RequestsType.get, false)
+
+  const fetcher = useFetchData()
+
+  const { data:lastTimeActive } = useQuery(['lastTime', usersOnline], 
+                                      () => fetcher(objectForRequest), {
+                                        enabled : !usersOnline[inChatWithUser.user_name!],
+                                        select: (res) => res._data
+                                      })
 
   const handleGoBack = ()=> {
     setChatContainerState(ChatUIState.ChatList)
@@ -61,7 +73,7 @@ const Chat = () => {
               {inChatWithUser?.name} {inChatWithUser?.last_name} <small>({inChatWithUser?.user_name})</small>
             </p>
             
-            <small className='text-sm'>Online</small>
+            <small className='text-sm'>{usersOnline[inChatWithUser.user_name!] ? 'Online' : lastTimeActive as string }</small>
           </div>
       
       </div>

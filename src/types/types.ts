@@ -121,7 +121,8 @@ export enum Endpoint {
     Register      = 'authentication/register',
     login         = 'authentication/login',
     matchingUsers = 'searchUsers',
-    getChats      = 'chats'
+    getChats      = 'chats',
+    getLastTime   = 'lastTime'
 }
 
 export interface RequestObject {
@@ -135,7 +136,7 @@ export interface RequestObject {
 export interface ServerResponse {
     _status : number,
     _message : string | null,
-    _data : null | object,
+    _data : null | Object,
     _success : boolean
 }
 
@@ -153,6 +154,7 @@ export interface UserChatSchema {
     date?: string,
     _id?: string
 }
+
 
 // SOCKET EVENTS NAMES
 export const enum SocketEvents { connect= "connect",

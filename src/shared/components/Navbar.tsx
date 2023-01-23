@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { AuthContext, ChatUtilitiesContext } from '../../context/context'
+import { AuthContext, ChatUtilitiesContext, SocketContext } from '../../context/context'
 import { AuthContextActions, ChatUIState } from '../../types/types'
 
 import noProfile from '../../assets/noprofile.png'
@@ -18,6 +18,7 @@ const Navbar = () => {
     e.preventDefault()
     window.localStorage.removeItem("userToken")
     AuthDispatch({type:AuthContextActions.LOGOUT})
+    console.log("no")
   } 
 
   return (

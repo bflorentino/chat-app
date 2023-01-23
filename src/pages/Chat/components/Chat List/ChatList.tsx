@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react'
-import { QueryClient, useQuery } from 'react-query'
+import { useQuery } from 'react-query'
 import { AuthContext, ChatContext } from '../../../../context/context'
 import { useFetchData } from '../../../../hooks/useFetchData'
 import useObjectForReqest from '../../../../hooks/useObjectForRequest'
