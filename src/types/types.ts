@@ -38,6 +38,7 @@ export interface AuthContextState {
     email: string,
     userName: string,
     token: string,
+    profilePic: string | null,
     logged?:boolean
 }
 
@@ -122,7 +123,8 @@ export enum Endpoint {
     login         = 'authentication/login',
     matchingUsers = 'searchUsers',
     getChats      = 'chats',
-    getLastTime   = 'lastTime'
+    getLastTime   = 'lastTime',
+    getPicAndName = 'chat'
 }
 
 export interface RequestObject {
@@ -150,11 +152,11 @@ export interface UserChatSchema {
     name?:string,
     last_name?:string,
     user_name?:string,
+    profilePic?:string | null,
     lastMessage?:string,
     date?: string,
     _id?: string
 }
-
 
 // SOCKET EVENTS NAMES
 export const enum SocketEvents { connect= "connect",

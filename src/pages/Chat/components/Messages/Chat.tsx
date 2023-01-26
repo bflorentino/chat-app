@@ -21,10 +21,10 @@ const Chat = () => {
   const fetcher = useFetchData()
 
   const { data:lastTimeActive } = useQuery(['lastTime', usersOnline], 
-                                      () => fetcher(objectForRequest), {
-                                        enabled : !usersOnline[inChatWithUser.user_name!],
-                                        select: (res) => res._data
-                                      })
+                                           () => fetcher(objectForRequest), {
+                                           enabled : !usersOnline[inChatWithUser.user_name!],
+                                           select: (res) => res._data
+                                        })
 
   const handleGoBack = ()=> {
     setChatContainerState(ChatUIState.ChatList)
@@ -65,7 +65,7 @@ const Chat = () => {
 
         </button>
       
-        <img src={noProfile} className='img_banner' alt='No Profile' />
+        <img src={inChatWithUser.profilePic || noProfile} className='img_banner' alt='No Profile' />
           
           <div className='ml-1'>
             

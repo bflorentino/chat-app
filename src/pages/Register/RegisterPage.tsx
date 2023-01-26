@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from '../../hooks/useForm'
 import { validateRegisterForm } from '../../tools/validations/RegisterForm'
@@ -12,11 +12,15 @@ import Swal from 'sweetalert2'
 import useObjectForReqest from '../../hooks/useObjectForRequest'
 
 const RegisterPage = () => {
-  
+
   const fetcher = useFetchData()
   const history = useNavigate()
   const login   = useLogin()
-  const objectForRequest = useObjectForReqest(Endpoint.Register, RequestsType.post, true)
+  const objectForRequest = useObjectForReqest(Endpoint.Register, RequestsType.post, false)
+  const [ profPic, setProfPic ] = useState<string | null>(null) 
+  const [ readedProfPic, setReadedProfPic ] = useState<File | null>(null) 
+
+  const inputFileHidden = useRef<HTMLInputElement>(null)
 
   const [ formValues, handleInputChanges ] = useForm({
     name: "",
@@ -76,15 +80,41 @@ const handleOnBlur = (e:React.FocusEvent<HTMLInputElement>) => {
   ))
 }
 
+ // IMAGE HANDLER
+ const handleImage = (e:React.ChangeEvent<HTMLInputElement>) =>{
+   
+   if(!e.target.files) return
+
+   const reader = new FileReader();
+  
+    reader.onload = () => {
+      reader.readyState === 2 && setProfPic(reader.result as string)
+    }
+
+    reader.readAsDataURL(e.target.files[0]);
+    setReadedProfPic(e.target.files[0])
+  }
+    
   const handleSubmit = (e:React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    const requestToSend:RequestObject = {...objectForRequest, body:JSON.stringify({...formValues})}
+
+    const dataToSend = new FormData()
+    dataToSend.append("name", formValues.name)
+    dataToSend.append("last_name", formValues.last_name)
+    dataToSend.append("user_name", formValues.user_name)
+    dataToSend.append("password", formValues.password)
+    dataToSend.append("email", formValues.email)
+    dataToSend.append("phone", formValues.phone)
+    
+    readedProfPic && dataToSend.append("profilePic", readedProfPic)
+
+    const requestToSend:RequestObject = {...objectForRequest, body:dataToSend}
     registerUser(requestToSend)
   }
 
   return (
-    <div className='Form_container'>
-      <form className='Form_box py-2'>
+    <div className='Form_container styled-scroll'>
+      <form className='Form_box py-2' encType="multipart/form-data">
       <h1 className='title2'>Sign up to chat!</h1>
 
         <input 
@@ -184,6 +214,27 @@ const handleOnBlur = (e:React.FocusEvent<HTMLInputElement>) => {
         {
           errors[6].message && <small className='Form_text-error text-left'>{errors[6].message}</small>
         }
+
+        <div className='mt-2'>
+
+           {profPic ? <img src={profPic} alt="" className='img_pick' /> : <div className='image-container' /> } 
+           
+          <label>
+            <input 
+              type="file" 
+              accept='image/*' 
+              className='none' 
+              onChange={handleImage} 
+              ref={inputFileHidden} 
+            />
+            <p onClick={()=> inputFileHidden.current && inputFileHidden.current.click()} 
+              className='pointer'
+            >
+              Seleccionar Foto
+            </p> 
+          </label>
+
+        </div>
 
         <button 
           type='submit' className='btn btn-primary mt-3 pointer' 

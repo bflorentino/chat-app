@@ -14,16 +14,19 @@ const ChatList = () => {
   const { AuthState:{userName} } = useContext(AuthContext)
   const { ChatState, ChatDispatch } = useContext(ChatContext)
 
+  const [ isLoading, setIsLoading ] = useState(true)
+
   const fetcher = useFetchData()
   const objectForRequest = useObjectForReqest(Endpoint.getChats, RequestsType.get, false)
   objectForRequest.endpoint = `${objectForRequest.endpoint}/${userName}`
 
-   useQuery([], 
+   const query = useQuery(["getChats"], 
        ()=>fetcher(objectForRequest as RequestObject),{     
         onSuccess:(response) => {
           if(response._success){
             ChatDispatch({type:ChatsContextActionsType.GET_CHATS, payload:response._data as ChatContextState})
           }
+          setIsLoading(false)
         }},
       )
 
@@ -33,22 +36,27 @@ const ChatList = () => {
 
       <Searcher setSearchString={setSearchString}  />
     
+    {
+      isLoading 
+        ? 
+          <p>Cargando</p> 
+        :
+
       <ul>
         {
           Object.values(ChatState).map(chat => (
             <li key={chat.messages[chat.messages.length-1].messageId}>
               <ChatListItem 
-                  name={'Bryan'} 
                   _id={chat._id}
-                  last_name={'montero'}  
                   user_name={chat.user_1 === userName ? chat.user_2 : chat.user_1 }
                   lastMessage={chat.messages[chat.messages.length-1].content}
                   date={chat.messages[chat.messages.length - 1].date}  
-              />
+                  />
             </li>
           ))
         }
       </ul>
+    }
     </div>
 )}
 

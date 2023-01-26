@@ -1,15 +1,29 @@
-import  { useContext } from 'react'
-import { UserChatSchema, ChatUIState } from '../../../../types/types'
+import  { useContext, useState } from 'react'
+import { UserChatSchema, ChatUIState, Endpoint, RequestsType, RequestObject } from '../../../../types/types'
 import noProfilePic from '../../../../assets/noprofile.png'
 import { ChatUtilitiesContext } from '../../../../context/context'
+import { useQuery } from 'react-query'
+import { useFetchData } from '../../../../hooks/useFetchData'
+import useObjectForReqest from '../../../../hooks/useObjectForRequest'
 
-const ChatListItem = ({user_name,name, last_name, lastMessage, date, _id}:UserChatSchema) => {
+const ChatListItem = ({user_name,lastMessage, date, _id}:UserChatSchema) => {
 
   const { setChatContainerState, setInChatWithUser } = useContext(ChatUtilitiesContext)
 
+  const [ userChat, setUserChat ] = useState<UserChatSchema>({user_name, lastMessage, date, _id })
+
+  const fetcher = useFetchData()
+  const objectForRequest = useObjectForReqest(`${Endpoint.getPicAndName}/${user_name}` as Endpoint, RequestsType.get, false)
+
+  const query = useQuery([`${user_name} data`], () => fetcher(objectForRequest as RequestObject),
+                          { onSuccess:(res) => {
+                            setUserChat(userChat => ({...userChat, ...res._data, _id })) 
+                          }}
+                        )
+
   const handleClickOnUser = () => {
     setChatContainerState(ChatUIState.InChat),
-    setInChatWithUser({user_name, name, last_name, _id} as UserChatSchema)
+    setInChatWithUser({...userChat})
    }
 
   return (
@@ -17,7 +31,7 @@ const ChatListItem = ({user_name,name, last_name, lastMessage, date, _id}:UserCh
 
       <div className='w-10 p-1 py-2'>
           <img 
-            src={noProfilePic} 
+            src={userChat.profilePic ||  noProfilePic} 
             alt={user_name} 
             title={user_name} 
             className='img_chat-list'
@@ -26,7 +40,7 @@ const ChatListItem = ({user_name,name, last_name, lastMessage, date, _id}:UserCh
       
       <div className='w-90 p-1 Chat_separator'>
         <div className='w-90 Chat_message-info'>
-          <p className=''>{name} {last_name}</p>
+          <p className=''>{userChat.name} {userChat.last_name}</p>
           <small className='text-gray'>@{user_name}</small>
           <small className='text-dark mt-1'>{lastMessage}</small>
         </div>

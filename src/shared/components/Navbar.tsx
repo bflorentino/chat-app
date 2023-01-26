@@ -7,7 +7,7 @@ import logout from '../../assets/logout.png'
 
 const Navbar = () => {
   
-  const { AuthState:{userName}, AuthDispatch } = useContext(AuthContext)
+  const { AuthState:{userName, profilePic}, AuthDispatch } = useContext(AuthContext)
   const { setChatContainerState } = useContext(ChatUtilitiesContext)
 
   const onAccount = () => {
@@ -18,7 +18,6 @@ const Navbar = () => {
     e.preventDefault()
     window.localStorage.removeItem("userToken")
     AuthDispatch({type:AuthContextActions.LOGOUT})
-    console.log("no")
   } 
 
   return (
@@ -29,12 +28,20 @@ const Navbar = () => {
         <h3 className='title3 text-dark'> Chat App </h3>
 
         <div className='Nav_item pointer' onClick={onAccount}>
-          <img src={noProfile} alt="Profile Picture" title='Profile Picture' />
+          <img src={profilePic ? profilePic : noProfile} 
+            className="img_banner" 
+            alt="Profile Picture" 
+            title='Profile Picture' 
+          />
         </div>
 
         <div id='account' className='none Nav_toggle py-1'>
             <div className='Nav_item px-1'>
-              <img src={noProfile} alt="Profile Picture" title='Profile Picture' />
+              <img src={profilePic ? profilePic : noProfile}
+                   className="img_banner" 
+                   alt="Profile Picture" 
+                   title='Profile Picture' 
+                />
               <p className='ml-1'>{userName}</p>
             </div>
 
