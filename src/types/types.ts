@@ -158,6 +158,19 @@ export interface UserChatSchema {
     _id?: string
 }
 
+// Messages Context Menu
+export interface MessageContextMenuItems {
+    show:boolean,
+    x:number,
+    y:number,
+    messageReference:MessageSchema | null
+}
+export interface MessageContextMenuProps {
+    contextMenuItems   : MessageContextMenuItems,
+    closeContextMenu   : () => void,
+    setMessageToEdit : (m:MessageSchema | null) => void
+}
+
 // SOCKET EVENTS NAMES
 export const enum SocketEvents { connect= "connect",
                                 userConnected = "user-connected",

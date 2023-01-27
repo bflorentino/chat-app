@@ -55,6 +55,10 @@ export const useSocketListener = () => {
 
             ChatDispatch({type:ChatsContextActionsType.RECEIVE_MESSAGE, payload:message})
         })
+
+        socket.on(SocketEvents.messagedUpdated, (message:ArrivingMessage) => {
+          ChatDispatch({type:ChatsContextActionsType.UPDATE_MESSAGE, payload:message})
+        })
     },[])
 
 }

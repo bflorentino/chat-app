@@ -83,6 +83,8 @@ const handleOnBlur = (e:React.FocusEvent<HTMLInputElement>) => {
  // IMAGE HANDLER
  const handleImage = (e:React.ChangeEvent<HTMLInputElement>) =>{
    
+    console.log(e)
+
    if(!e.target.files) return
 
    const reader = new FileReader();
@@ -93,6 +95,10 @@ const handleOnBlur = (e:React.FocusEvent<HTMLInputElement>) => {
 
     reader.readAsDataURL(e.target.files[0]);
     setReadedProfPic(e.target.files[0])
+  }
+
+  const handleOpenFileSystem = () => {
+    inputFileHidden.current?.click()
   }
     
   const handleSubmit = (e:React.MouseEvent<HTMLButtonElement>) => {
@@ -219,15 +225,16 @@ const handleOnBlur = (e:React.FocusEvent<HTMLInputElement>) => {
 
            {profPic ? <img src={profPic} alt="" className='img_pick' /> : <div className='image-container' /> } 
            
-          <label>
-            <input 
+           <input 
               type="file" 
               accept='image/*' 
               className='none' 
               onChange={handleImage} 
               ref={inputFileHidden} 
             />
-            <p onClick={()=> inputFileHidden.current && inputFileHidden.current.click()} 
+            
+          <label>
+            <p onClick={handleOpenFileSystem} 
               className='pointer'
             >
               Seleccionar Foto

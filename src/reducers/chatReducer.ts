@@ -3,17 +3,23 @@ import { ArrivingMessage, ChatContextState, ChatSchema, ChatsContextActions, Cha
 export const chatsReducer = (state:ChatContextState={}, action:ChatsContextActions):ChatContextState =>{
 
     let payload: ChatSchema | ArrivingMessage
+    let chatId: string
 
     switch(action.type){
     
         case ChatsContextActionsType.GET_CHATS:
-            
-            return {...action.payload as ChatContextState}
+    
+            return {...action.payload } as ChatContextState
+        
+        case ChatsContextActionsType.ADD_CHAT:
+
+            payload = <ChatSchema>action.payload
+            return {...state, [payload._id]:payload } as ChatContextState
 
         case ChatsContextActionsType.RECEIVE_MESSAGE:
 
             payload = <ArrivingMessage>action.payload
-            const chatId = payload.chatId as string              
+            chatId = payload.chatId              
             
            return {...state,  
                      [chatId] : {...state[chatId],
@@ -21,10 +27,20 @@ export const chatsReducer = (state:ChatContextState={}, action:ChatsContextActio
                         }, 
                     } as ChatContextState
 
-        case ChatsContextActionsType.ADD_CHAT:
-
-            payload = <ChatSchema>action.payload
-            return {...state, [payload._id]:payload } as ChatContextState
+        case ChatsContextActionsType.UPDATE_MESSAGE:
+            
+            payload = action.payload as ArrivingMessage
+            chatId = payload.chatId
+            let messagetoUpdate = payload.message
+            
+           return {...state,  
+                     [chatId] : {...state[chatId],
+                                messages: state[chatId].messages.map(msg => msg.messageId ===  messagetoUpdate.messageId 
+                                                                                            ? {...msg, ...messagetoUpdate} 
+                                                                                            : msg  
+                                                                                        )
+                            }, 
+                    } as ChatContextState
 
         default:
             return state

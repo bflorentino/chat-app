@@ -1,22 +1,32 @@
 import { useContext } from "react"
 import { AuthContext } from "../../../../context/context"
-import { MessageSchema } from "../../../../types/types"
+import { MessageContextMenuItems, MessageSchema } from "../../../../types/types"
 
-const Message = ({messageId, content, time, date, user_from}:MessageSchema) => {
+const Message = ({message, setContextMenu}:{message:MessageSchema, setContextMenu:(m:MessageContextMenuItems)=>void }) => {
 
   const { AuthState:{userName} } = useContext(AuthContext)
 
+  const handleContextMenu = (e:React.MouseEvent<HTMLDivElement, MouseEvent>) => {   
+    e.preventDefault()
+
+    if(message.user_from === userName)
+      setContextMenu({show:true, x:e.pageX, y:e.pageY, messageReference:message})
+  }
+
   return (
-    <div className={`Chat_message ${userName === user_from && 'message-r'}`  } >
-      {/* <img src={noPrfoile} alt="" className='' /> */}
-      <div className='Chat_message-info' >
-        <div className={`Chat_bubble ${userName === user_from  && 'bubble-r'}`}>
-          <small className='text-base'>{content}</small>
+    <>
+      <div className={`Chat_message ${userName === message.user_from && 'message-r'}`} >
+        <div className='Chat_message-info' >
+          <div 
+            className={`Chat_bubble ${userName === message.user_from  && 'bubble-r'}`}
+            onContextMenu={handleContextMenu} 
+            >
+            <small className='text-base'>{message.content}</small>
+          </div>
+          <small className='text-sm p-1'> {message.time} </small>
         </div>
-        <small className='text-sm p-1'> {time} </small>
       </div>
-    </div>
+    </>
   )
 }
-
 export default Message

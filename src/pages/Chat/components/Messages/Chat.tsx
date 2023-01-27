@@ -1,21 +1,32 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext, ChatContext, ChatUtilitiesContext, SocketContext } from '../../../../context/context'
-import { ChatUIState, Endpoint, MessageSchema, RequestsType, SocketEvents } from '../../../../types/types'
+import { ChatUIState, Endpoint, MessageContextMenuItems, MessageSchema, RequestsType, SocketEvents } from '../../../../types/types'
 import noProfile from '../../../../assets/noprofile.png'
 import Message from './Message'
 import {v4} from 'uuid'
 import { useQuery } from 'react-query'
 import useObjectForReqest from '../../../../hooks/useObjectForRequest'
 import { useFetchData } from '../../../../hooks/useFetchData'
+import MessageContextMenu from './MessageContextMenu'
+
+const initialContextMenu: MessageContextMenuItems = {
+  show:false, 
+  x:0,
+  y:0,
+  messageReference:null
+}
 
 const Chat = () => {
 
   const { setChatContainerState, inChatWithUser, setInChatWithUser } = useContext(ChatUtilitiesContext)
   const { AuthState:{userName}} = useContext(AuthContext)
-  const { SocketState:{socket, usersOnline}, SocketDispatch } = useContext(SocketContext)
+  const { SocketState:{socket, usersOnline} } = useContext(SocketContext)
   const { ChatState } = useContext(ChatContext)
 
   const [ messageTyped, setMessageTyped ] = useState<string>("")
+  const [ messageToEdit, setMessageToEdit ] = useState<MessageSchema | null>(null)
+  const [ contextMenu, setContextMenu ] = useState(initialContextMenu)
+
   const objectForRequest = useObjectForReqest(`${Endpoint.getLastTime}/${inChatWithUser.user_name}` as Endpoint, RequestsType.get, false)
 
   const fetcher = useFetchData()
@@ -26,10 +37,24 @@ const Chat = () => {
                                            select: (res) => res._data
                                         })
 
+  useEffect(()=> {
+    if(messageToEdit){
+      setMessageTyped(messageToEdit.content)
+    }
+  }, [messageToEdit])
+
+  useEffect(()=>{
+    if(messageToEdit && !messageTyped){
+      setMessageToEdit(null)
+    }
+  }, [messageTyped])
+
   const handleGoBack = ()=> {
     setChatContainerState(ChatUIState.ChatList)
     setInChatWithUser({})
   }
+
+  const closeContextMenu = () => setContextMenu(initialContextMenu)
 
   const handleSendMessage = ()=> {
     
@@ -37,12 +62,17 @@ const Chat = () => {
 
       const messageToSend:MessageSchema = {
                       content:messageTyped, 
-                      was_seen:false, 
+                      was_seen: messageToEdit ? messageToEdit.was_seen : false, 
                       user_from:userName, 
-                      messageId:v4()
+                      messageId: messageToEdit ? messageToEdit.messageId : v4()
                   }
       
-      socket.emit(SocketEvents.sendMessage, messageToSend, userName, inChatWithUser?.user_name)
+      if(messageToEdit){
+        socket.emit(SocketEvents.updateMessage, messageToSend, userName, inChatWithUser.user_name, messageToEdit && inChatWithUser._id)
+      }else{
+        socket.emit(SocketEvents.sendMessage, messageToSend, userName, inChatWithUser.user_name)
+      }
+
       setMessageTyped("")
     }
   }
@@ -86,11 +116,8 @@ const Chat = () => {
             ChatState[inChatWithUser._id].messages.map((m) => (
             <li key={m.messageId}>
               <Message 
-                content={m.content}
-                messageId={m.messageId}
-                date={m.date}
-                time={m.time}
-                user_from={m.user_from}
+                message = {m}
+                setContextMenu={setContextMenu}
               />
             </li>
           ))
@@ -111,11 +138,26 @@ const Chat = () => {
           onChange= {(e:React.ChangeEvent<HTMLTextAreaElement>)=>setMessageTyped(e.target.value) }
         />
           <button className='btn pointer' onClick={handleSendMessage}>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="img_svg-icon">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
-          </svg>
+            {
+              messageToEdit 
+              ?
+              (<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="img_svg-icon">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+              </svg>)
+              :
+              (<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="img_svg-icon">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+              </svg>)
+          }
         </button>
       </div>
+
+      {
+        contextMenu.show && 
+                    <MessageContextMenu 
+                      contextMenuProps={{contextMenuItems:contextMenu, closeContextMenu, setMessageToEdit}}
+                    />
+      }
     </>
   )
 }
