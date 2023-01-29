@@ -172,17 +172,18 @@ export interface MessageContextMenuProps {
 }
 
 // SOCKET EVENTS NAMES
-export const enum SocketEvents { connect= "connect",
-                                userConnected = "user-connected",
-                                disconnect = "disconnect",
-                                userDisconnected = "user-disconnected",
-                                sendMessage = "sendMessage",
-                                messageReceived = "messageReceived",
-                                updateMessage = "updateMessage",
-                                messagedUpdated = "messageUpdated",
-                                deleteMessage = "deleteMessage",
-                                messageDeleted = "messageDeleted",
-                                readMessage = "readMessage",
-                                messageRead = "messageRead",
-                                errorInMessageSend="errorInMessageSend"
-}
+export const enum SocketEvents {
+                                    connect= "connect",
+                                    userConnected = "user-connected",
+                                    disconnect = "disconnect",
+                                    userDisconnected = "user-disconnected",
+                                    sendMessage = "sendMessage",
+                                    messageReceived = "messageReceived",
+                                    updateMessage = "updateMessage",
+                                    messagedUpdated = "messageUpdated",
+                                    deleteMessage = "deleteMessage",
+                                    messageDeleted = "messageDeleted",
+                                    readMessage = "readMessage",
+                                    messageRead = "messageRead",
+                                    errorInMessageSend="errorInMessageSend"
+                                }

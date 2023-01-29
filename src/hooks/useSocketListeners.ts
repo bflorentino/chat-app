@@ -59,6 +59,10 @@ export const useSocketListener = () => {
         socket.on(SocketEvents.messagedUpdated, (message:ArrivingMessage) => {
           ChatDispatch({type:ChatsContextActionsType.UPDATE_MESSAGE, payload:message})
         })
-    },[])
 
+        socket.on(SocketEvents.messageDeleted, (message:ArrivingMessage) => {
+          ChatDispatch({type:ChatsContextActionsType.DELETE_MESSAGE, payload:message})
+        })
+
+    },[])
 }

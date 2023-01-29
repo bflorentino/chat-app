@@ -42,6 +42,18 @@ export const chatsReducer = (state:ChatContextState={}, action:ChatsContextActio
                             }, 
                     } as ChatContextState
 
+        case ChatsContextActionsType.DELETE_MESSAGE:
+
+            payload = action.payload as ArrivingMessage
+            chatId = payload.chatId
+            let messagetoDelete = payload.message
+
+            return {...state,  
+                [chatId] : {...state[chatId],
+                           messages: state[chatId].messages.filter(msg => msg.messageId !==  messagetoDelete.messageId)
+                       }, 
+               } as ChatContextState
+
         default:
             return state
     }

@@ -24,7 +24,7 @@ const Chat = () => {
   const { ChatState } = useContext(ChatContext)
 
   const [ messageTyped, setMessageTyped ] = useState<string>("")
-  const [ messageToEdit, setMessageToEdit ] = useState<MessageSchema | null>(null)
+  const [ messageToEdit , setMessageToEdit ] = useState<MessageSchema | null>(null)
   const [ contextMenu, setContextMenu ] = useState(initialContextMenu)
 
   const objectForRequest = useObjectForReqest(`${Endpoint.getLastTime}/${inChatWithUser.user_name}` as Endpoint, RequestsType.get, false)
@@ -68,8 +68,9 @@ const Chat = () => {
                   }
       
       if(messageToEdit){
-        socket.emit(SocketEvents.updateMessage, messageToSend, userName, inChatWithUser.user_name, messageToEdit && inChatWithUser._id)
-      }else{
+        socket.emit(SocketEvents.updateMessage, messageToSend, userName, inChatWithUser.user_name, inChatWithUser._id)
+      }
+      else{
         socket.emit(SocketEvents.sendMessage, messageToSend, userName, inChatWithUser.user_name)
       }
 
