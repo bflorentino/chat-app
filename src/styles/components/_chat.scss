@@ -53,6 +53,12 @@
     border-bottom: 1px solid $light-gray1;
 }
 
+.Chat_time{
+    display:flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
 .Chat_messages-container {
     background-color: $light-gray3;
     height: 84%;
@@ -71,14 +77,15 @@
 }
 
 .Chat_bubble{
+    @extend %flex-column;
     background-color: $white;
-    border-radius: 15px 15px 15px 0px;
+    border-radius: 10px 10px 10px 0px;
     max-width: 250px;
     padding: 10px;
 }
 
 .bubble-r {
-    border-radius: 15px 15px 0px 15px;
+    border-radius: 10px 10px 0px 10px;
     background-color: #D9FDD3;
 }
 
@@ -99,4 +106,20 @@
         outline: none;
         font-family: $inter, sans-serif;
     }
+}
+
+.Chat_date {
+    @extend %flex-column-centered;
+}
+
+.Chat_unread {
+    border-radius: 999px;
+    background-color: #25D366;
+    margin-top: 15px;
+}
+
+.Chat_context-menu {
+    background-color: $white;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px 0 rgb(0, 0, math.div(0, 0.05));
 }

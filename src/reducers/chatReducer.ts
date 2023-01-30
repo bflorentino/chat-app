@@ -1,8 +1,8 @@
-import { ArrivingMessage, ChatContextState, ChatSchema, ChatsContextActions, ChatsContextActionsType } from "../types/types";
+import { ArrivingMessage, ArrivingReadMessages, ChatContextState, ChatSchema, ChatsContextActions, ChatsContextActionsType } from "../types/types";
 
 export const chatsReducer = (state:ChatContextState={}, action:ChatsContextActions):ChatContextState =>{
 
-    let payload: ChatSchema | ArrivingMessage
+    let payload: ChatSchema | ArrivingMessage |  ArrivingReadMessages
     let chatId: string
 
     switch(action.type){
@@ -54,6 +54,18 @@ export const chatsReducer = (state:ChatContextState={}, action:ChatsContextActio
                        }, 
                } as ChatContextState
 
+        case ChatsContextActionsType.MESSAGES_READ:
+            
+            payload = action.payload as ArrivingReadMessages
+            chatId = payload.chatId
+            const messagesId = payload.messagesId
+
+            return {...state,
+                [chatId]:{...state[chatId],
+                         messages: state[chatId].messages.map(msg => messagesId[msg.messageId] ? {...msg, was_seen:true} : msg)
+                    }
+                } as ChatContextState
+                
         default:
             return state
     }

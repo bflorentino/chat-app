@@ -14,14 +14,20 @@ const ChatList = () => {
   const { AuthState:{userName} } = useContext(AuthContext)
   const { ChatState, ChatDispatch } = useContext(ChatContext)
 
-  const [ isLoading, setIsLoading ] = useState(true)
+  const [ isLoading, setIsLoading ] = useState(false)
 
   const fetcher = useFetchData()
   const objectForRequest = useObjectForReqest(Endpoint.getChats, RequestsType.get, false)
   objectForRequest.endpoint = `${objectForRequest.endpoint}/${userName}`
 
    const query = useQuery(["getChats"], 
-       ()=>fetcher(objectForRequest as RequestObject),{     
+       ()=> { setIsLoading(true); 
+              return fetcher(objectForRequest as RequestObject)
+            },
+        {  
+        
+        enabled:Object.keys(ChatState).length === 0,
+        
         onSuccess:(response) => {
           if(response._success){
             ChatDispatch({type:ChatsContextActionsType.GET_CHATS, payload:response._data as ChatContextState})
@@ -41,21 +47,27 @@ const ChatList = () => {
         ? 
           <p>Cargando</p> 
         :
+        <>
+          <ul>
+            {
+              Object.values(ChatState).map(chat => (
+                <li key={chat.messages[chat.messages.length-1].messageId}>
+                  <ChatListItem 
+                      _id={chat._id}
+                      user_name={chat.user_1 === userName ? chat.user_2 : chat.user_1 }
+                      lastMessage={chat.messages[chat.messages.length-1]}
+                      date={chat.messages[chat.messages.length - 1].date}
+                      messagesUnread={chat.messages.filter(msg => !msg.was_seen && msg.user_from !== userName).length}
+                      />
+                </li>
+              ))
+            }
+          </ul>
 
-      <ul>
-        {
-          Object.values(ChatState).map(chat => (
-            <li key={chat.messages[chat.messages.length-1].messageId}>
-              <ChatListItem 
-                  _id={chat._id}
-                  user_name={chat.user_1 === userName ? chat.user_2 : chat.user_1 }
-                  lastMessage={chat.messages[chat.messages.length-1].content}
-                  date={chat.messages[chat.messages.length - 1].date}  
-                  />
-            </li>
-          ))
-        }
-      </ul>
+          {
+            Object.keys(ChatState).length === 0 && <p>Search Your friends and start chatting!</p>
+          }
+    </>
     }
     </div>
 )}

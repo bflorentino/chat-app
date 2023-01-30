@@ -26,7 +26,7 @@ const Chat = () => {
   const [ messageTyped, setMessageTyped ] = useState<string>("")
   const [ messageToEdit , setMessageToEdit ] = useState<MessageSchema | null>(null)
   const [ contextMenu, setContextMenu ] = useState(initialContextMenu)
-
+ 
   const objectForRequest = useObjectForReqest(`${Endpoint.getLastTime}/${inChatWithUser.user_name}` as Endpoint, RequestsType.get, false)
 
   const fetcher = useFetchData()
@@ -49,6 +49,16 @@ const Chat = () => {
     }
   }, [messageTyped])
 
+  useEffect(()=> {
+    if(socket && inChatWithUser._id){
+      // Get unread message
+      const unreadMessages = ChatState[inChatWithUser._id].messages.filter(msg => (!msg.was_seen && msg.user_from !== userName))
+      const messagesId = unreadMessages.map(msg => msg.messageId)
+
+      socket.emit(SocketEvents.readMessage, messagesId, userName, inChatWithUser.user_name, inChatWithUser._id)
+    }
+  },[])
+
   const handleGoBack = ()=> {
     setChatContainerState(ChatUIState.ChatList)
     setInChatWithUser({})
@@ -64,11 +74,12 @@ const Chat = () => {
                       content:messageTyped, 
                       was_seen: messageToEdit ? messageToEdit.was_seen : false, 
                       user_from:userName, 
-                      messageId: messageToEdit ? messageToEdit.messageId : v4()
+                      messageId: messageToEdit ? messageToEdit.messageId : v4(),
+                      edited:new Boolean(messageToEdit)
                   }
       
       if(messageToEdit){
-        socket.emit(SocketEvents.updateMessage, messageToSend, userName, inChatWithUser.user_name, inChatWithUser._id)
+        socket.emit(SocketEvents.updateMessage, messageToSend, userName, inChatWithUser.user_name, inChatWithUser._id, "typed")
       }
       else{
         socket.emit(SocketEvents.sendMessage, messageToSend, userName, inChatWithUser.user_name)
@@ -114,7 +125,7 @@ const Chat = () => {
           // Only render messages if exists a chat with the user
           (inChatWithUser && inChatWithUser._id && ChatState[inChatWithUser._id]) 
               &&
-            ChatState[inChatWithUser._id].messages.map((m) => (
+            ChatState[inChatWithUser._id].messages.map(m => (
             <li key={m.messageId}>
               <Message 
                 message = {m}

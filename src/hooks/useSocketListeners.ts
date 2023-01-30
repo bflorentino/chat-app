@@ -64,5 +64,9 @@ export const useSocketListener = () => {
           ChatDispatch({type:ChatsContextActionsType.DELETE_MESSAGE, payload:message})
         })
 
+        socket.on(SocketEvents.messageRead, (messagesRead:{messagesId:{[m:string]:string}, chatId:string}) => {
+          ChatDispatch({type:ChatsContextActionsType.MESSAGES_READ, payload:messagesRead})
+        })
+
     },[])
 }

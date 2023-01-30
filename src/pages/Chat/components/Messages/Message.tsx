@@ -1,6 +1,9 @@
 import { useContext } from "react"
-import { AuthContext } from "../../../../context/context"
+import { AuthContext} from "../../../../context/context"
 import { MessageContextMenuItems, MessageSchema } from "../../../../types/types"
+import read from '../../../../assets/read.png'
+import checkmark from '../../../../assets/check.png'
+
 
 const Message = ({message, setContextMenu}:{message:MessageSchema, setContextMenu:(m:MessageContextMenuItems)=>void }) => {
 
@@ -22,8 +25,12 @@ const Message = ({message, setContextMenu}:{message:MessageSchema, setContextMen
             onContextMenu={handleContextMenu} 
             >
             <small className='text-base'>{message.content}</small>
+            <small className={`text-sm mt-1 Chat_time`}>
+              {message.edited && "Edited "}{message.time} 
+              {(message.was_seen  && message.user_from === userName) && <img src={read} className='img_smaller ml-1' />} 
+              {(!message.was_seen && message.user_from === userName) && <img src={checkmark} className='img_smaller ml-1' />} 
+            </small>
           </div>
-          <small className='text-sm p-1'> {message.time} </small>
         </div>
       </div>
     </>

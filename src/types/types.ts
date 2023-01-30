@@ -61,7 +61,8 @@ export enum ChatsContextActionsType {
     UPDATE_MESSAGE     = "update_message",
     DELETE_MESSAGE     = 'delete_message', 
     ADD_CHAT           = 'add_chat',
-    DELETE_CHAT        = 'delete_chat' 
+    DELETE_CHAT        = 'delete_chat',
+    MESSAGES_READ      = 'Messages_Read'
 }
 
 export interface MessageSchema {
@@ -70,7 +71,8 @@ export interface MessageSchema {
     content: string,
     time?:string,
     date?:string,
-    was_seen?:Boolean
+    was_seen?:Boolean,
+    edited?:Boolean
 }
 
 export interface ChatSchema {
@@ -85,9 +87,11 @@ export interface ArrivingMessage {
     chatId:string
 }
 
+export type ArrivingReadMessages = {messagesId:{[m:string]:string}, chatId:string}
+
 export type ChatContextState = { [chatId:string] : ChatSchema }
 
-export type ChatContextPayload = ChatContextState | ArrivingMessage | ChatSchema
+export type ChatContextPayload = ChatContextState | ArrivingMessage | ChatSchema | ArrivingReadMessages
 
 export interface ChatsContextActions {
     type   : ChatsContextActionsType,
@@ -153,9 +157,10 @@ export interface UserChatSchema {
     last_name?:string,
     user_name?:string,
     profilePic?:string | null,
-    lastMessage?:string,
+    lastMessage?:MessageSchema,
     date?: string,
-    _id?: string
+    _id?: string,
+    messagesUnread?:number
 }
 
 // Messages Context Menu

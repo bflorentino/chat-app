@@ -41,12 +41,13 @@ const MessageContextMenu = ({contextMenuProps,}:{ contextMenuProps:MessageContex
   return (
     <div 
       ref={contextMenuRef}
+      className='Chat_context-menu p-2'
       style={{top:`${y}px`, left:`${x}px`, position:"absolute"}}
     >
       <div onClick={handleEditMessage}>
         Editar
       </div>
-      <div onClick={handleDeleteMessage}>
+      <div className='mt-1' onClick={handleDeleteMessage}>
         Eliminar
       </div>
     </div>
