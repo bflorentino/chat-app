@@ -24,9 +24,20 @@
     position: absolute;
     background-color: $white;
     top: 44px;
-    right: 150px;
     width: 150px;
     box-shadow: 0 1px 2px 0 rgb(0, 0, math.div(0, 0.05));
+
+    @media only screen and (min-width:350px){
+        right: 1%;
+    }
+
+    @media only screen and (min-width:600px){
+        right: 11%;
+    }
+
+    @media only screen and (min-width:800px){
+        right: 25%;
+    }
 }
 
 .Nav_hover-item {

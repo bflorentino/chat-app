@@ -62,7 +62,8 @@ export enum ChatsContextActionsType {
     DELETE_MESSAGE     = 'delete_message', 
     ADD_CHAT           = 'add_chat',
     DELETE_CHAT        = 'delete_chat',
-    MESSAGES_READ      = 'Messages_Read'
+    MESSAGES_READ      = 'Messages_Read',
+    REMOVE_CHATS       =  'Remove_Chats'
 }
 
 export interface MessageSchema {
@@ -95,7 +96,7 @@ export type ChatContextPayload = ChatContextState | ArrivingMessage | ChatSchema
 
 export interface ChatsContextActions {
     type   : ChatsContextActionsType,
-    payload: ChatContextPayload
+    payload?: ChatContextPayload
 }
 
 export interface ChatContextProps {

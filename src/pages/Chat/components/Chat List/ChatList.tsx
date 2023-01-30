@@ -59,14 +59,14 @@ const ChatList = () => {
                       lastMessage={chat.messages[chat.messages.length-1]}
                       date={chat.messages[chat.messages.length - 1].date}
                       messagesUnread={chat.messages.filter(msg => !msg.was_seen && msg.user_from !== userName).length}
-                      />
+                    />
                 </li>
               ))
             }
           </ul>
 
           {
-            Object.keys(ChatState).length === 0 && <p>Search Your friends and start chatting!</p>
+            Object.keys(ChatState).length === 0 && <p className='text-center text-dark mt-2'>Search Your friends and start chatting!</p>
           }
     </>
     }

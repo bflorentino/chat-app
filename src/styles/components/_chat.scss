@@ -6,15 +6,28 @@
     align-items: flex-start;
     height: 100%;
     overflow: hidden;
+    overflow-x: auto;
 }
 
 .Chat_container {
     @extend %flex-column;
-    width: 40%;
+    width: 60%;
     height: 100%;
     border: 1px solid $light-gray1;
     box-shadow: 0 1px 2px 0 rgb(0, 0, math.div(0, 0.05));
-    min-width: 350px;
+    min-width: 360px;
+
+    @media only screen and (min-width:350px){
+        width: 100%;
+    }
+
+    @media only screen and (min-width:600px){
+        width: 80%;
+    }
+
+    @media only screen and (min-width:800px){
+        width: 50%;
+    }
 }
 
 .Chat_list-container{
@@ -102,7 +115,7 @@
         border: none;
         border-radius: 10px;
         resize: none;
-        width: 85%;
+        width: 89%;
         outline: none;
         font-family: $inter, sans-serif;
     }

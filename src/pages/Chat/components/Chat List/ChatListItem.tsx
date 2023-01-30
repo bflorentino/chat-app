@@ -44,14 +44,18 @@ const ChatListItem = ({user_name,lastMessage, date, _id, messagesUnread}:UserCha
         <div className='w-90 Chat_message-info'>
           <p className=''>{userChat.name} {userChat.last_name}</p>
           <small className='text-gray'>@{user_name}</small>
-          <small 
-            className={`text-dark mt-1 ${(messagesUnread! > 0 && lastMessage?.user_from === user_name) && 'text-700'}`}>
 
-              {(lastMessage?.was_seen  && lastMessage?.user_from !== user_name) && <img src={read} alt="" className='img_smaller' /> } 
-              {(!lastMessage?.was_seen && lastMessage?.user_from !== user_name) && <img src={check} alt="" className='img_smaller' /> } 
+          {
+            lastMessage &&
+          <small 
+          className={`text-dark mt-1 ${(messagesUnread! > 0 && lastMessage.user_from === user_name) && 'text-700'}`}>
+
+              {(lastMessage.was_seen  && lastMessage.user_from !== user_name) && <img src={read} alt="" className='img_smaller' /> } 
+              {(!lastMessage.was_seen && lastMessage.user_from !== user_name) && <img src={check} alt="" className='img_smaller' /> } 
               
-              {lastMessage?.content}
+              {lastMessage.content}
           </small>
+          }
         </div>
 
         <div className='w-10 p-2 Chat_date'>

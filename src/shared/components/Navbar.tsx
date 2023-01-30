@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import { AuthContext, ChatUtilitiesContext } from '../../context/context'
-import { AuthContextActions, ChatUIState } from '../../types/types'
+import { AuthContext, ChatContext, ChatUtilitiesContext } from '../../context/context'
+import { AuthContextActions, ChatsContextActionsType, ChatUIState } from '../../types/types'
 
 import noProfile from '../../assets/noprofile.png'
 import logout from '../../assets/logout.png'
@@ -9,6 +9,7 @@ const Navbar = () => {
   
   const { AuthState:{userName, profilePic}, AuthDispatch } = useContext(AuthContext)
   const { setChatContainerState } = useContext(ChatUtilitiesContext)
+  const { ChatDispatch } = useContext(ChatContext)
 
   const onAccount = () => {
     document.getElementById("account")?.classList.toggle("none")
@@ -18,6 +19,7 @@ const Navbar = () => {
     e.preventDefault()
     window.localStorage.removeItem("userToken")
     AuthDispatch({type:AuthContextActions.LOGOUT})
+    ChatDispatch({type:ChatsContextActionsType.REMOVE_CHATS})
   } 
 
   return (

@@ -65,6 +65,9 @@ export const chatsReducer = (state:ChatContextState={}, action:ChatsContextActio
                          messages: state[chatId].messages.map(msg => messagesId[msg.messageId] ? {...msg, was_seen:true} : msg)
                     }
                 } as ChatContextState
+
+        case ChatsContextActionsType.REMOVE_CHATS:
+            return {}
                 
         default:
             return state

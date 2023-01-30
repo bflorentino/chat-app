@@ -27,7 +27,7 @@ const UserList = () => {
             {   
                 searchString === "" 
                     ? 
-                    <p className='m-auto text-dark'>Start Making a search</p>
+                    <p className='m-auto text-dark'>Search users!</p>
                     :(
                         usersMatched &&  // Only renders what is below if usersMatched is defined (as an array) 
                             (usersMatched.length > 0
@@ -38,7 +38,6 @@ const UserList = () => {
                                         name={user.name}
                                         last_name={user.last_name}  
                                         user_name={user.user_name}
-                                        _id={"De PRueba"}
                                     />
                                 ))
                             : <p className='m-auto text-dark'>No Users Found</p>
