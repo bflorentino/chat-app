@@ -4,12 +4,9 @@ import { AuthContext, ChatContext } from '../../../../context/context'
 import { useFetchData } from '../../../../hooks/useFetchData'
 import useObjectForReqest from '../../../../hooks/useObjectForRequest'
 import { Endpoint, RequestsType, RequestObject, ChatsContextActionsType, ChatContextState } from '../../../../types/types'
-import Searcher from '../Searcher'
 import ChatListItem from './ChatListItem'
 
 const ChatList = () => {
-
-  const [ searchString, setSearchString ] = useState<string>("")
 
   const { AuthState:{userName} } = useContext(AuthContext)
   const { ChatState, ChatDispatch } = useContext(ChatContext)
@@ -33,24 +30,28 @@ const ChatList = () => {
             ChatDispatch({type:ChatsContextActionsType.GET_CHATS, payload:response._data as ChatContextState})
           }
           setIsLoading(false)
-        }},
+        }}
       )
 
   return ( 
     
     <div className='Chat_list-container w-full styled-scroll'>
-
-      <Searcher setSearchString={setSearchString}  />
     
     {
       isLoading 
         ? 
-          <p>Cargando</p> 
+          <p className='text-center mt-1'>Cargando</p> 
         :
         <>
-          <ul>
+          <ul className='mt-1'>
             {
-              Object.values(ChatState).map(chat => (
+              // Array of chats is descending ordered by the datetime of the last message in every chat. 
+              // Last messages will be on top of the chat list (Using b - a for ascending order).
+              Object.values(ChatState)
+              .sort((a, b) => new Date(`${b.messages[b.messages.length - 1].date!} ${b.messages[b.messages.length - 1].time!}`).getTime()
+                             - new Date(`${a.messages[a.messages.length - 1].date!} ${a.messages[a.messages.length - 1].time!}`).getTime() 
+                            )
+              .map(chat => (
                 <li key={chat.messages[chat.messages.length-1].messageId}>
                   <ChatListItem 
                       _id={chat._id}

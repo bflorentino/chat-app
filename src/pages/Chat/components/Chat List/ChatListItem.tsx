@@ -26,7 +26,7 @@ const ChatListItem = ({user_name,lastMessage, date, _id, messagesUnread}:UserCha
   const handleClickOnUser = () => {
     setChatContainerState(ChatUIState.InChat),
     setInChatWithUser({...userChat})
-   }
+  }
 
   return (
     <div className='Chat_list-item pointer' onClick={handleClickOnUser}>
@@ -46,8 +46,10 @@ const ChatListItem = ({user_name,lastMessage, date, _id, messagesUnread}:UserCha
           <small className='text-gray'>@{user_name}</small>
           <small 
             className={`text-dark mt-1 ${(messagesUnread! > 0 && lastMessage?.user_from === user_name) && 'text-700'}`}>
+
               {(lastMessage?.was_seen  && lastMessage?.user_from !== user_name) && <img src={read} alt="" className='img_smaller' /> } 
               {(!lastMessage?.was_seen && lastMessage?.user_from !== user_name) && <img src={check} alt="" className='img_smaller' /> } 
+              
               {lastMessage?.content}
           </small>
         </div>

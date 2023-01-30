@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react'
-import { AuthContext, ChatUtilitiesContext, SocketContext } from '../../context/context'
+import React, { useContext } from 'react'
+import { AuthContext, ChatUtilitiesContext } from '../../context/context'
 import { AuthContextActions, ChatUIState } from '../../types/types'
 
 import noProfile from '../../assets/noprofile.png'
@@ -55,12 +55,12 @@ const Navbar = () => {
       <div className='chat-state'>
         <span>
             <button className='btn text-dark pointer p-2 normalP Nav_hover-item' onClick={()=>setChatContainerState(ChatUIState.ChatList)}>
-              Tus Chats
+              Your Chats
             </button>
         </span>
         <span>
             <button className='btn text-dark pointer p-2 normalP Nav_hover-item' onClick={()=>setChatContainerState(ChatUIState.UsersSearch)}>
-              Buscar Usuarios
+              Users Search
             </button>
         </span>
       </div>

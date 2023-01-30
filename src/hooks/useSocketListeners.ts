@@ -3,6 +3,7 @@ import { useSocket } from "./useSocket";
 import { SOCKET_URL } from "../constants";
 import { AuthContext, ChatContext, ChatUtilitiesContext, SocketContext } from "../context/context";
 import { ChatSchema, ChatsContextActionsType, ArrivingMessage, SocketActionTypes, SocketEvents } from "../types/types";
+import messageSound from '../assets/sounds/Message Notification.mp3'
 
 // HOOK TO MANAGE ALL MESSAGES RECEIVED FROM SOCKETS    
 export const useSocketListener = () => {
@@ -11,6 +12,8 @@ export const useSocketListener = () => {
     const { ChatDispatch } = useContext(ChatContext)
     const { AuthState:{userName}} = useContext(AuthContext)
     const { setInChatWithUser} = useContext(ChatUtilitiesContext)
+    
+    const notification = new Audio(messageSound)
 
     const socket = useSocket(SOCKET_URL, {
         reconnectionAttempts:5,
@@ -38,22 +41,32 @@ export const useSocketListener = () => {
 
     useEffect(()=>{
           // LISTENERS TO MANAGE CHATS AND MESSAGES
-          socket.on(SocketEvents.messageReceived, (message:ChatSchema | ArrivingMessage) => {
+          socket.on(SocketEvents.messageReceived, (messageChat:ChatSchema | ArrivingMessage) => {
             
-            if("_id" in message){
+            if("_id" in messageChat){
               
-              ChatDispatch({type:ChatsContextActionsType.ADD_CHAT, payload:message})         
+              ChatDispatch({type:ChatsContextActionsType.ADD_CHAT, payload:messageChat})         
               
               setInChatWithUser((userChat) => { 
-                  if(userChat.user_name === message.user_1 || userChat.user_name === message.user_2){
-                    return {...userChat, _id:message._id}
+                  if(userChat.user_name === messageChat.user_1 || userChat.user_name === messageChat.user_2){
+                    return {...userChat, _id:messageChat._id}
                   }
                   return {...userChat}
                 })
-                return
-            }
 
-            ChatDispatch({type:ChatsContextActionsType.RECEIVE_MESSAGE, payload:message})
+              // Just play sound if the user starting the chat is not the same as the user connected
+              if(messageChat.user_2 === userName){
+                notification.play().catch((e)=> console.log("Can't play without user interaction"))
+              }
+              return 
+            }
+            
+              ChatDispatch({type:ChatsContextActionsType.RECEIVE_MESSAGE, payload:messageChat})
+              
+              // Just play sound if the user sending the message is not the same as the user connected
+              if(messageChat.message.user_from !== userName){
+                notification.play().catch((e)=> console.log("Can't play without user interaction"))
+              }
         })
 
         socket.on(SocketEvents.messagedUpdated, (message:ArrivingMessage) => {

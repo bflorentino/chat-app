@@ -4,7 +4,6 @@ import { MessageContextMenuItems, MessageSchema } from "../../../../types/types"
 import read from '../../../../assets/read.png'
 import checkmark from '../../../../assets/check.png'
 
-
 const Message = ({message, setContextMenu}:{message:MessageSchema, setContextMenu:(m:MessageContextMenuItems)=>void }) => {
 
   const { AuthState:{userName} } = useContext(AuthContext)
