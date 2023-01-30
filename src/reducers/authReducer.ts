@@ -5,6 +5,7 @@ import { AuthContextActions,
 
 export const defaultAuthContextState : AuthContextState = {
     logged:false,
+    profilePic:null,
     name:"",
     lastName:"",
     token:"",
